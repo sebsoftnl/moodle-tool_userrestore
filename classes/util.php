@@ -193,6 +193,7 @@ class util {
                 $updateuser               = new \stdClass();
                 $updateuser->id           = $userrecord->id;
                 $updateuser->deleted      = 0;
+                $updateuser->suspended    = 0; // Or Moodle won't send emails.
                 $updateuser->email        = $olddata['email'];
                 $updateuser->username     = $olddata['username'];
                 $updateuser->idnumber     = $olddata['idnumber'];
@@ -208,6 +209,7 @@ class util {
             $updateuser               = new \stdClass();
             $updateuser->id           = $userrecord->id;
             $updateuser->deleted      = 0;
+            $updateuser->suspended    = 0; // Or Moodle won't send emails.
             $updateuser->email        = substr($userrecord->username, 0, $dotpos);
             $updateuser->username     = $updateuser->email;
             $updateuser->timemodified = time();
