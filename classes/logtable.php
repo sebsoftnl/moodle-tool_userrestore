@@ -24,6 +24,8 @@
  */
 
 namespace tool_userrestore;
+
+defined('MOODLE_INTERNAL') || die;
 require_once($CFG->libdir . '/tablelib.php');
 
 /**
@@ -118,7 +120,7 @@ class logtable extends \table_sql {
      */
     protected function get_action_image($action) {
         global $OUTPUT;
-        return '<img src="' . $OUTPUT->pix_url($action, 'tool_userrestore') . '"/>';
+        return '<img src="' . $OUTPUT->image_url($action, 'tool_userrestore') . '"/>';
     }
 
     /**

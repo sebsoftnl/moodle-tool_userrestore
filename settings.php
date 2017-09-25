@@ -33,9 +33,9 @@ if ($hassiteconfig) {
     $temp = new admin_settingpage('restoresettings', new lang_string('restoresettings', 'tool_userrestore'));
     // Header.
     $image = '<a href="http://www.sebsoft.nl" target="_new"><img src="' .
-            $OUTPUT->pix_url('logo', 'tool_userrestore') . '" /></a>&nbsp;&nbsp;&nbsp;';
+            $OUTPUT->image_url('logo', 'tool_userrestore') . '" /></a>&nbsp;&nbsp;&nbsp;';
     $donate = '<a href="https://customerpanel.sebsoft.nl/sebsoft/donate/intro.php" target="_new"><img src="' .
-            $OUTPUT->pix_url('donate', 'tool_userrestore') . '" /></a>';
+            $OUTPUT->image_url('donate', 'tool_userrestore') . '" /></a>';
     $header = '<div class="tool-userrestore-logopromo">' . $image . $donate . '</div>';
     $temp->add(new admin_setting_heading('tool_userrestore_logopromo',
             get_string('promo', 'tool_userrestore'),
@@ -54,6 +54,10 @@ if ($hassiteconfig) {
             get_string('setting:cleanlogsafter', 'tool_userrestore'),
             get_string('setting:desc:cleanlogsafter', 'tool_userrestore'),
             70 * 86400, 86400));
+    $temp->add(new admin_setting_configtext('tool_userrestore/maxrestoreusers',
+            get_string('setting:maxrestoreusers', 'tool_userrestore'),
+            get_string('setting:desc:maxrestoreusers', 'tool_userrestore'),
+            100, PARAM_INT));
 
     $ADMIN->add('tools', $temp);
 }

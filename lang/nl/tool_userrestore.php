@@ -66,6 +66,8 @@ $string['setting:desc:enablecleanlogs'] = 'Schakelt automatisch opschonen van hi
 $string['setting:cleanlogsafter'] = 'Frequentie logopschoning';
 $string['setting:desc:cleanlogsafter'] = 'Configureer de frequentie waarop historische logs worden opgeschoond. Alle logs ouder dan de ingegeven waarde zullen fysiek verwijderd worden.';
 $string['config:cleanlogs:disabled'] = 'Automatisch opschonen van logs is uitgeschakeld in de globale configuratie';
+$string['setting:maxrestoreusers'] = 'Maximum gebruikers';
+$string['setting:desc:maxrestoreusers'] = 'Dit stelt het maximale aantal getoonde gebruikers in voor het aantal te herstellen gebruikers.';
 
 $string['page:view:restore.php:introduction'] = 'Dit formulier stelt je in staat gebruikersaccounts te herstellen en de gebruikers
 per email te informeren over het herstel van hun account. Let op, in de onderstaande tabel stellen de gebruikersnaam en e-mailadres de originele

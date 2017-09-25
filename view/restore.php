@@ -35,13 +35,18 @@ use tool_userrestore\util;
 admin_externalpage_setup('tooluserrestore');
 
 $history = optional_param('history', 0, PARAM_INT);
+$page = optional_param('page', 0, PARAM_INT);
 $context       = \context_system::instance();
 
 $pageurl = new moodle_url('/' . $CFG->admin . '/tool/userrestore/view/restore.php');
 
 require_capability('tool/userrestore:administration', $context);
 require_capability('moodle/user:update', context_system::instance());
-if (\tool_userrestore\util::count_users_to_undelete() === 0) {
+
+$undeletecounter = \tool_userrestore\util::count_users_to_undelete();
+$perpage = (int) tool_userrestore\config::get('maxrestoreusers');
+$needspaging = ($undeletecounter > $perpage);
+if ($undeletecounter === 0) {
         echo $OUTPUT->header();
         echo '<div id="tool-userrestore-container">';
         echo '<div>';
@@ -51,7 +56,20 @@ if (\tool_userrestore\util::count_users_to_undelete() === 0) {
         echo '</div>';
         echo $OUTPUT->footer();
 } else {
-    $mform = new \tool_userrestore\forms\restore\user($PAGE->url);
+    // Force page into range.
+    $maxpage = ceil($undeletecounter / $perpage) - 1;
+    $page = max(0, min($page, $maxpage));
+    $limitfrom = $page * $perpage;
+
+    $strpaging = '';
+    if ($needspaging) {
+        $pagingbar = new paging_bar($undeletecounter, $page, $perpage, $pageurl, 'page');
+        $pagingbar->prepare($OUTPUT, $PAGE, '');
+        $strpaging = $OUTPUT->render($pagingbar);
+    }
+
+    $options = ['limitfrom' => $limitfrom, 'limitnum' => $perpage];
+    $mform = new \tool_userrestore\forms\restore\user($PAGE->url, $options);
     if ($mform->is_cancelled()) {
         redirect($pageurl);
     } else if ($data = $mform->get_data()) {
@@ -72,6 +90,7 @@ if (\tool_userrestore\util::count_users_to_undelete() === 0) {
         \tool_userrestore\util::print_view_tabs(array(), 'restore');
         echo '</div>';
         echo '<div>' . get_string('page:view:restore.php:introduction', 'tool_userrestore') . '</div>';
+        echo $strpaging;
         echo $mform->display();
         echo '</div>';
         echo $OUTPUT->footer();

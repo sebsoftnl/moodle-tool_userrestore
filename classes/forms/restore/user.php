@@ -24,6 +24,8 @@
  */
 
 namespace tool_userrestore\forms\restore;
+
+defined('MOODLE_INTERNAL') || die;
 use tool_userrestore\util;
 
 require_once($CFG->libdir . '/formslib.php');
@@ -49,14 +51,15 @@ class user extends \moodleform {
      * form definition
      */
     public function definition() {
-        /* @var $DB \moodle_database */
         $mform = $this->_form;
+        $limitfrom = (empty($this->_customdata['limitfrom']) ? 0 : $this->_customdata['limitfrom']);
+        $limitnum = (empty($this->_customdata['limitnum']) ? 0 : $this->_customdata['limitnum']);
         // This element is only here so the form will actually get submitted.
         $mform->addElement('hidden', 'processor', 1);
         $mform->setType('processor', PARAM_INT);
 
         // Load users.
-        $this->potentialusers = \tool_userrestore\util::load_users_to_undelete(true, true);
+        $this->potentialusers = \tool_userrestore\util::load_users_to_undelete(true, true, $limitfrom, $limitnum);
         foreach ($this->potentialusers as $user) {
             // Register hidden element so user ids are tracked.
             $mform->addElement('hidden', 'user_'.$user->id, 0);
@@ -64,7 +67,7 @@ class user extends \moodleform {
         }
         // Add fake elements for all deleted users.
         $mform->addElement('html', $this->create_fake_user_elements($this->potentialusers));
-        $this->add_checkbox_controller(1); // Hoping this works.
+        $this->add_checkbox_controller(1);
 
         // Register send HTML option.
         $mform->addElement('advcheckbox', 'sendmail', '', get_string('form:label:sendmail', 'tool_userrestore'));

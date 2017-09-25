@@ -26,10 +26,13 @@
  * @author      R.J. van Dongen <rogier@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
+defined('MOODLE_INTERNAL') || die;
+
 $plugin = new stdClass();
-$plugin->version   = 2015042002;
-$plugin->release   = '2.7.0';
-$plugin->requires  = 2014051200; // YYYYMMDDHH (This is the release version for Moodle 2.7).
+$plugin->version   = 2017092500;
+$plugin->requires  = 2017050300;      // YYYYMMDDHH (This is the release version for Moodle 3.3BETA).
 $plugin->cron      = 0;
 $plugin->component = 'tool_userrestore'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity  = MATURITY_STABLE;
+$plugin->release   = '3.3.0 (build 2017092500)';
+$plugin->dependencies = array();

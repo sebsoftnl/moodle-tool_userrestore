@@ -25,6 +25,8 @@
 
 namespace tool_userrestore;
 
+defined('MOODLE_INTERNAL') || die;
+
 /**
  * tool_userrestore\util
  *
@@ -59,12 +61,16 @@ class util {
      *
      * @param bool $autoconvert true to automatically convert relevant data due to the process of deleting
      * @param bool $includeloginfo true to include some relevant log information
+     * @param int $limitfrom start results at
+     * @param int $limitnum number of results
      * @return boolean
      */
-    static final public function load_users_to_undelete($autoconvert = false, $includeloginfo = false) {
+    static final public function load_users_to_undelete($autoconvert = false, $includeloginfo = false,
+            $limitfrom = 0, $limitnum = 0) {
         global $CFG, $DB;
         $params = array('confirmed' => 1, 'deleted' => 1, 'mnethostid' => $CFG->mnet_localhost_id);
-        $users = $DB->get_records('user', $params);
+        $fields = 'id, ' . get_all_user_name_fields(true) . ', timemodified';
+        $users = $DB->get_records('user', $params, 'firstname ASC', $fields, $limitfrom, $limitnum);
         if ($autoconvert) {
             self::convert_undelete_users($users);
         }
@@ -345,7 +351,7 @@ class util {
      */
     public static function print_notification($msg, $class = 'success') {
         global $OUTPUT;
-        $pix = '<img src="' . $OUTPUT->pix_url('msg_' . $class, 'tool_userrestore') . '"/>';
+        $pix = '<img src="' . $OUTPUT->image_url('msg_' . $class, 'tool_userrestore') . '"/>';
         echo '<div class="tool-userrestore-notification-' . $class . '">' . $pix . ' ' . $msg . '</div>';
     }
 
@@ -384,7 +390,7 @@ class util {
         global $OUTPUT;
         $img = '';
         if ($pix !== null) {
-            $img = '<img src="' . $OUTPUT->pix_url($pix, $component) . '"> ';
+            $img = '<img src="' . $OUTPUT->image_url($pix, $component) . '"> ';
         }
         return new \tabobject($id, $link, $img . $text, empty($title) ? $text : $title, $linkedwhenselected);
     }

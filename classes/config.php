@@ -25,6 +25,8 @@
 
 namespace tool_userrestore;
 
+defined('MOODLE_INTERNAL') || die;
+
 /**
  * tool_userrestore\config
  *

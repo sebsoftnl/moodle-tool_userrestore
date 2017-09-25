@@ -67,6 +67,8 @@ $string['setting:desc:enablecleanlogs'] = 'Enables or disables automatic cleanin
 $string['setting:cleanlogsafter'] = 'Clean logs frequency';
 $string['setting:desc:cleanlogsafter'] = 'Configure the frequency after which logs are cleaned. Any logs older than this setting will physically be removed.';
 $string['config:cleanlogs:disabled'] = 'Automatic logcleaning is disabled in global configuration';
+$string['setting:maxrestoreusers'] = 'Maximum restore users';
+$string['setting:desc:maxrestoreusers'] = 'This sets the maximum number of users displayed on the restore users form.';
 
 $string['page:view:restore.php:introduction'] = 'This form enables you to select users to restore and optionally send them an
 email about their user accounts being restored. Please note, in the table below the username and emailaddress represents the original
