@@ -86,7 +86,7 @@ class logtable extends \table_sql {
         $table = ($this->showhistory ? 'tool_userrestore_log' : 'tool_userrestore_status');
         $from = '{' . $table . '} l LEFT JOIN {user} u ON l.userid=u.id';
         $where = '1 = 1';
-        $params = null;
+        $params = array();
         parent::set_sql($fields, $from, $where, $params);
         $this->out($pagesize, $useinitialsbar);
     }
