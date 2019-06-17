@@ -15,37 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Tasks performed by tool userrestore
+ * Event handler definitions for tool_userrestore.
  *
- * File         tasks.php
+ * File         events.php
  * Encoding     UTF-8
  *
  * @package     tool_userrestore
- *
- * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @copyright   2019 R.J. van Dongen <rogier@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
- * */
-defined('MOODLE_INTERNAL') || die;
+ */
+defined('MOODLE_INTERNAL') || die();
 
-$tasks = array(
+$observers = array(
     array(
-        'classname' => 'tool_userrestore\task\logclean',
-        'blocking'  => 0,
-        'minute'    => '0',
-        'hour'      => '*/6',
-        'day'       => '*',
-        'dayofweek' => '*',
-        'month'     => '*'
-    ),
-    array(
-        'classname' => 'tool_userrestore\task\filldeletedcache',
-        'blocking'  => 0,
-        'minute'    => '0',
-        'hour'      => '2',
-        'day'       => '*',
-        'dayofweek' => '*',
-        'month'     => '*'
+        'eventname'   => '\core\event\user_deleted',
+        'callback'    => '\tool_userrestore\observer::user_deleted',
     ),
 );

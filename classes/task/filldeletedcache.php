@@ -15,37 +15,45 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Tasks performed by tool userrestore
+ * this file contains the task to fill the deleted userinfo cache.
  *
- * File         tasks.php
+ * File         filldeletedcache.php
  * Encoding     UTF-8
+ * @copyright   Sebsoft.nl
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+namespace tool_userrestore\task;
+
+defined('MOODLE_INTERNAL') || die;
+
+/**
+ * Description of filldeletedcache
  *
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
  * @author      R.J. van Dongen <rogier@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
- * */
-defined('MOODLE_INTERNAL') || die;
+ */
+class filldeletedcache extends \core\task\scheduled_task {
 
-$tasks = array(
-    array(
-        'classname' => 'tool_userrestore\task\logclean',
-        'blocking'  => 0,
-        'minute'    => '0',
-        'hour'      => '*/6',
-        'day'       => '*',
-        'dayofweek' => '*',
-        'month'     => '*'
-    ),
-    array(
-        'classname' => 'tool_userrestore\task\filldeletedcache',
-        'blocking'  => 0,
-        'minute'    => '0',
-        'hour'      => '2',
-        'day'       => '*',
-        'dayofweek' => '*',
-        'month'     => '*'
-    ),
-);
+    /**
+     * Return the localised name for this task
+     *
+     * @return string task name
+     */
+    public function get_name() {
+        return get_string('task:filldeletedcache', 'tool_userrestore');
+    }
+
+    /**
+     * Executes the task
+     *
+     * @return void
+     */
+    public function execute() {
+        \tool_userrestore\deletedusercache::fill_cache(true);
+    }
+
+}

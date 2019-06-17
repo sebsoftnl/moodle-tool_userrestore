@@ -15,37 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Tasks performed by tool userrestore
+ * Cache definitions for tool_userrestore.
  *
- * File         tasks.php
+ * File         caches.php
  * Encoding     UTF-8
  *
  * @package     tool_userrestore
- *
- * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @copyright   2017 R.J. van Dongen <rogier@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
- * */
-defined('MOODLE_INTERNAL') || die;
+ */
+defined('MOODLE_INTERNAL') || die();
 
-$tasks = array(
-    array(
-        'classname' => 'tool_userrestore\task\logclean',
-        'blocking'  => 0,
-        'minute'    => '0',
-        'hour'      => '*/6',
-        'day'       => '*',
-        'dayofweek' => '*',
-        'month'     => '*'
+$definitions = array(
+    'deletedusercache' => array(
+        'mode' => cache_store::MODE_APPLICATION, // MUST be shared app wide cache.
+        'simplekeys' => true,
+        'simpledata' => false,
+        'staticacceleration' => true,
+        'canuselocalstore' => true,
     ),
-    array(
-        'classname' => 'tool_userrestore\task\filldeletedcache',
-        'blocking'  => 0,
-        'minute'    => '0',
-        'hour'      => '2',
-        'day'       => '*',
-        'dayofweek' => '*',
-        'month'     => '*'
-    ),
+
 );

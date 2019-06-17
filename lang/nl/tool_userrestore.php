@@ -41,6 +41,7 @@ $string['link:log'] = 'Gebruikersherstel logs';
 $string['link:viewstatus'] = 'Status overzicht inzien';
 $string['link:log:overview'] = 'Statiswijzigingen inzien';
 $string['link:currentstatus:overview'] = 'Huidige statussen inzien';
+$string['link:cache'] = 'Cache';
 
 $string['form:label:sendmail'] = 'E-mail verzenden?';
 $string['form:label:email'] = 'E-mail tekst';
@@ -112,4 +113,24 @@ $string['table:logs'] = 'Logs';
 $string['table:log:all'] = 'Historie herstellog';
 $string['table:log:latest'] = 'Laatste herstellogs';
 $string['task:logclean'] = 'Opschonen logs voor gebruikersherstel';
+$string['task:filldeletedcache'] = 'Informatie tbv verwijderde gebruikers vullen in cache.';
 $string['msg:no-users-to-restore'] = 'Er zijn geen verwijderde gebruikersaccounts gevonden om te kunnen herstellen.';
+
+$string['privacy:metadata:tool_userrestore:userid'] = 'De primaire database sleutel van de Moodle gebruiker voor wie herstel is gedaan.';
+$string['privacy:metadata:tool_userrestore:restored'] = 'Of het account werd hersteld';
+$string['privacy:metadata:tool_userrestore:mailsent'] = 'Of een email is verzonden naar de gebruiker';
+$string['privacy:metadata:tool_userrestore:mailedto'] = 'E-mailadres van de herstelde gebruiker';
+$string['privacy:metadata:tool_userrestore:timecreated'] = 'Tijdstip waarop de gegevens zijn aangemaakt.';
+
+$string['cache:fill'] = 'Cache volledig opnieuw vullen';
+$string['cache:fill:smart'] = 'Missend informatie aan cache toevoegen';
+$string['cache:fillneeded'] = 'De cache die nodig is om gebruikersgegevens voor verwijderde gebruikers te traceren is niet gevuld.<br/>
+Deze cache is nodig om het tonen van het herstelformulier voor gebruikersaccounts en gaat timeouts zo veel mogelijk tegen.<br/>
+Wees er a.u.b van bewust dat het vullen van de cache, afhankelijk van de grootte van je installatie een <i>langdurig proces</i> kan zijn.<br/>
+Voor grote installaties kan dit hele proces met gemak minuten of nog langer in beslag nemen.<br/><br/>
+Wanneer de cache eenmaal volledig gevuld is, zou het herstelformulier binnen enkele seconden geladen moeten zijn.<br/><br/>
+Je kunt ervoor kiezen om de cache aan te vullen of volledig opnieuw te vullen.<br/>
+Het verschil is dat aanvullen de cache <i>niet</i> van tevoren leegt, terwijl een volledig opnieuw vullen dat wel doet.
+';
+$string['cache:purge'] = 'Cache legen';
+$string['cache:iscomplete'] = 'Cache heeft alle benodigde informatie';

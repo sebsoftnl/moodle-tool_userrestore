@@ -34,6 +34,9 @@ use tool_userrestore\util;
 
 admin_externalpage_setup('tooluserrestore');
 
+raise_memory_limit(MEMORY_HUGE);
+set_time_limit(0);
+
 $history = optional_param('history', 0, PARAM_INT);
 $page = optional_param('page', 0, PARAM_INT);
 $context       = \context_system::instance();
@@ -56,6 +59,22 @@ if ($undeletecounter === 0) {
         echo '</div>';
         echo $OUTPUT->footer();
 } else {
+    // Validate if cache is full or not.
+    if (!tool_userrestore\deletedusercache::has_all_entries()) {
+        echo $OUTPUT->header();
+        echo '<div id="tool-userrestore-container">';
+        echo '<div>';
+        \tool_userrestore\util::print_view_tabs(array(), 'restore');
+        \tool_userrestore\util::print_notification(get_string('cache:fillneeded', 'tool_userrestore'), 'warn');
+        $fillurl = new moodle_url('/' . $CFG->admin . '/tool/userrestore/view/cachefill.php',
+                ['confirm' => 1, 'redirect' => $pageurl->out(true)]);
+        echo $OUTPUT->single_button($fillurl, get_string('cache:fill', 'tool_userrestore'), 'get');
+        $confirmfillsmart = new moodle_url('/' . $CFG->admin . '/tool/userrestore/view/cachefill.php',
+                ['confirm' => 1, 'smart' => 1, 'redirect' => $pageurl->out(true)]);
+        echo $OUTPUT->single_button($confirmfillsmart, get_string('cache:fill:smart', 'tool_userrestore'), 'get');
+        echo $OUTPUT->footer();
+        exit;
+    }
     // Force page into range.
     $maxpage = ceil($undeletecounter / $perpage) - 1;
     $page = max(0, min($page, $maxpage));
@@ -67,7 +86,6 @@ if ($undeletecounter === 0) {
         $pagingbar->prepare($OUTPUT, $PAGE, '');
         $strpaging = $OUTPUT->render($pagingbar);
     }
-
     $options = ['limitfrom' => $limitfrom, 'limitnum' => $perpage];
     $mform = new \tool_userrestore\forms\restore\user($PAGE->url, $options);
     if ($mform->is_cancelled()) {

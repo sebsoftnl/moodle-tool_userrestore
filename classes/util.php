@@ -72,10 +72,10 @@ class util {
         $fields = 'id, ' . get_all_user_name_fields(true) . ', timemodified';
         $users = $DB->get_records('user', $params, 'firstname ASC', $fields, $limitfrom, $limitnum);
         if ($autoconvert) {
-            self::convert_undelete_users($users);
+            self::convert_undelete_users_cached($users);
         }
         if ($includeloginfo) {
-            self::append_deleted_users_loginfo($users);
+            self::append_deleted_users_loginfo_cached($users);
         }
         return $users;
     }
@@ -389,7 +389,7 @@ class util {
             $text = '', $title = '', $linkedwhenselected = false) {
         global $OUTPUT;
         $img = '';
-        if ($pix !== null) {
+        if (!empty($pix)) {
             $img = '<img src="' . $OUTPUT->image_url($pix, $component) . '"> ';
         }
         return new \tabobject($id, $link, $img . $text, empty($title) ? $text : $title, $linkedwhenselected);
@@ -420,7 +420,54 @@ class util {
             new \moodle_url('/' . $CFG->admin . '/tool/userrestore/view/log.php', $params + array('history' => 1)),
                 get_string('table:log:all', 'tool_userrestore'));
         $tabs[] = $logs;
+        // Add cache tab.
+        $cache = self::pictabobject('cache', '', '',
+            new \moodle_url('/' . $CFG->admin . '/tool/userrestore/view/cachefill.php', $params),
+                get_string('link:cache', 'tool_userrestore'));
+        $tabs[] = $cache;
         echo $OUTPUT->tabtree($tabs, $selected);
+    }
+
+    /**
+     * Convert given records that indicate deleted moodle users to something usable.
+     *
+     * @param array $users list of user objects
+     * @return void
+     */
+    static final public function convert_undelete_users_cached(&$users) {
+        foreach ($users as &$user) {
+            $cacheinfo = deletedusercache::get_info($user->id);
+            if (!empty($cacheinfo)) {
+                $logrecord = $cacheinfo['ud_record'];
+                // Set date user was deleted.
+                $user->email = $logrecord->email;
+                $user->username = $logrecord->username;
+                $user->timedeleted = $logrecord->timemodified;
+                $user->fromlogstore = $logrecord->fromlogstore;
+            }
+        }
+    }
+
+    /**
+     * Append some information about deletion to user records.
+     *
+     * @param array $users list of user objects
+     * @return void
+     */
+    static final public function append_deleted_users_loginfo_cached(&$users) {
+        foreach ($users as &$user) {
+            $cacheinfo = deletedusercache::get_info($user->id);
+            if (!empty($cacheinfo)) {
+                $logrecord = $cacheinfo['ud_record'];
+                $user->deletedby = $logrecord->deletedby;
+                $user->deletedbyid = $logrecord->deletedbyid;
+                $user->timedeletedby = $logrecord->timedeletedby;
+            } else {
+                $user->deletedby = '-';
+                $user->deletedbyid = 0;
+                $user->timedeletedby = 0;
+            }
+        }
     }
 
 }

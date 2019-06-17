@@ -42,6 +42,7 @@ $string['link:log'] = 'Restore users logs';
 $string['link:viewstatus'] = 'View statuslist';
 $string['link:log:overview'] = 'View status change logs';
 $string['link:currentstatus:overview'] = 'View current status changes';
+$string['link:cache'] = 'Cache';
 
 $string['form:label:sendmail'] = 'Send E-mail';
 $string['form:label:email'] = 'E-mail body';
@@ -112,4 +113,24 @@ $string['table:logs'] = 'Logs';
 $string['table:log:all'] = 'Historic restore log';
 $string['table:log:latest'] = 'Latest restore logs';
 $string['task:logclean'] = 'Clean logs for user restore';
+$string['task:filldeletedcache'] = 'Fill deleteds cache for user restore';
 $string['msg:no-users-to-restore'] = 'There are no deleted user accounts found to restore.';
+
+$string['privacy:metadata:tool_userrestore:userid'] = 'The primary key of the Moodle user for which account has been restored.';
+$string['privacy:metadata:tool_userrestore:restored'] = 'Whether or not the account was restored';
+$string['privacy:metadata:tool_userrestore:mailsent'] = 'Whether or not an email has been sent';
+$string['privacy:metadata:tool_userrestore:mailedto'] = 'E-mail address of the restored user';
+$string['privacy:metadata:tool_userrestore:timecreated'] = 'Time the record was created.';
+
+$string['cache:fill'] = 'Full cache refill';
+$string['cache:fill:smart'] = 'Append missing information to cache';
+$string['cache:fillneeded'] = 'The cache required to keep track of the deleted user information is not filled.<br/>
+This cache is needed to speed up rendering the user restore form and prevents timeouts.<br/>
+Please be aware that filling the cache, depending on your configuration and the size of your installation can be a <i>very</i> lengthy process.<br/>
+On huge installations the whole process can take several minutes or longer to complete.<br/><br/>
+When the cache has been filled in full, the restore form should be loaded within seconds.<br/><br/>
+You can choose to add to the cache or to completely refill the cache.<br/>
+The difference is that adding to the cache will <i>not</i> purge the cache in advance, whereas a full refill will purge the cache.
+';
+$string['cache:purge'] = 'Purge cache';
+$string['cache:iscomplete'] = 'Cache has all required information';
