@@ -36,6 +36,8 @@ use core_privacy\local\request\contextlist;
 use core_privacy\local\request\approved_contextlist;
 use core_privacy\local\request\transform;
 use core_privacy\local\request\writer;
+use core_privacy\local\request\userlist;
+use core_privacy\local\request\approved_userlist;
 
 /**
  * Privacy provider.
@@ -48,7 +50,8 @@ use core_privacy\local\request\writer;
  */
 class provider implements
         \core_privacy\local\metadata\provider,
-        \core_privacy\local\request\plugin\provider {
+        \core_privacy\local\request\plugin\provider,
+        \core_privacy\local\request\core_userlist_provider {
 
     /**
      * Provides meta data that is stored about a user with tool_userrestore
@@ -65,7 +68,8 @@ class provider implements
                 'mailsent' => 'privacy:metadata:tool_userrestore:mailsent',
                 'mailedto' => 'privacy:metadata:tool_userrestore:mailedto',
                 'timecreated' => 'privacy:metadata:tool_userrestore:timecreated',
-            ]
+            ],
+            'privacy:metadata:tool_userrestore_status'
         );
         $collection->add_database_table(
             'tool_userrestore_log',
@@ -75,7 +79,8 @@ class provider implements
                 'mailsent' => 'privacy:metadata:tool_userrestore:mailsent',
                 'mailedto' => 'privacy:metadata:tool_userrestore:mailedto',
                 'timecreated' => 'privacy:metadata:tool_userrestore:timecreated',
-            ]
+            ],
+            'privacy:metadata:tool_userrestore_log'
         );
         return $collection;
     }
@@ -206,4 +211,41 @@ class provider implements
             $DB->delete_records('tool_userrestore_log', ['userid' => $user->id]);
         }
     }
+
+    /**
+     * Get the list of users who have data within a context.
+     *
+     * @param userlist $userlist The userlist containing the list of users who have data in this context/plugin combination.
+     */
+    public static function get_users_in_context(userlist $userlist) {
+        global $DB;
+        $context = $userlist->get_context();
+        if ($context->contextlevel != CONTEXT_SYSTEM) {
+            return;
+        }
+        // Since we work on a global level, this means "all context".
+        $userids1 = $DB->get_fieldset_sql('SELECT DISTINCT userid FROM {tool_userrestore_status}');
+        $userids2 = $DB->get_fieldset_sql('SELECT DISTINCT userid FROM {tool_userrestore_log}');
+        $userids = array_unique(array_merge($userids1, $userids2));
+        $userlist->add_users($userids);
+    }
+
+    /**
+     * Delete multiple users within a single context.
+     *
+     * @param  approved_userlist $userlist The approved context and user information to delete information for.
+     */
+    public static function delete_data_for_users(approved_userlist $userlist) {
+        global $DB;
+        $context = $userlist->get_context();
+        if ($context->contextlevel != CONTEXT_SYSTEM) {
+            return;
+        }
+
+        foreach ($userlist->get_userids() as $userid) {
+            $DB->delete_records('tool_userrestore_status', ['userid' => $userid]);
+            $DB->delete_records('tool_userrestore_log', ['userid' => $userid]);
+        }
+    }
+
 }

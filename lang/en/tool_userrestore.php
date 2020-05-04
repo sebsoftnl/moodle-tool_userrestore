@@ -134,3 +134,6 @@ The difference is that adding to the cache will <i>not</i> purge the cache in ad
 ';
 $string['cache:purge'] = 'Purge cache';
 $string['cache:iscomplete'] = 'Cache has all required information';
+
+$string['privacy:metadata:tool_userrestore_status'] = 'The userrestore status contains information about restored users';
+$string['privacy:metadata:tool_userrestore_log'] = 'The userrestore log contains historic/logging information about restored users';

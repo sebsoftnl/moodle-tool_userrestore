@@ -105,6 +105,6 @@ $string['email:user:restore:body'] = '<p>Guten Tag {fullname}</p>
 <p>Mit freundlichen Grüßen<br/>{signature}</p>';
 $string['table:logs'] = 'Log-Daten';
 $string['table:log:all'] = 'Wiederherstellungshistorie';
-$string['table:log:latest'] = 'Aktuelle Wiederherstellungshistorie' ;
+$string['table:log:latest'] = 'Aktuelle Wiederherstellungshistorie';
 $string['task:logclean'] = 'Wiederherstellungshistorie aufräumen';
 $string['msg:no-users-to-restore'] = 'keine Wiederherstellungshistorie gefunden.';

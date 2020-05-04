@@ -1,3 +1,7 @@
+Version 3.6.1 (build 2019060101)
+* Updated privacy provider.
+----------
+
 Version 3.6.0 (build 2019060100)
 * Added caching to speed up overviews
 ----------
