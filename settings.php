@@ -59,6 +59,11 @@ if ($hassiteconfig) {
             get_string('setting:desc:maxrestoreusers', 'tool_userrestore'),
             100, PARAM_INT));
 
+    $temp->add(new admin_setting_configcheckbox('tool_userrestore/enableuserdeletedobserver',
+            get_string('setting:enableuserdeletedobserver', 'tool_userrestore'),
+            get_string('setting:desc:enableuserdeletedobserver', 'tool_userrestore'),
+            0));
+
     $ADMIN->add('tools', $temp);
 }
 

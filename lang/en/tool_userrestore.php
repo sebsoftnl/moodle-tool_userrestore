@@ -137,3 +137,13 @@ $string['cache:iscomplete'] = 'Cache has all required information';
 
 $string['privacy:metadata:tool_userrestore_status'] = 'The userrestore status contains information about restored users';
 $string['privacy:metadata:tool_userrestore_log'] = 'The userrestore log contains historic/logging information about restored users';
+
+$string['setting:enableuserdeletedobserver'] = 'Enable user deleted observer?';
+$string['setting:desc:enableuserdeletedobserver'] = 'If enabled, this will perform a cache fill of deleted user data
+at the very moment a user is deleted.<br/>
+This has the potential of causing long running times or even timeouts when you are deleting users in bulk from the user administration.<br/>
+It should be treated very carefully. If you have this setting enabled and you delete users in bulk quite often, it might be time to disable the event observer.
+';
+$string['cache:missing:numusers'] = 'Deleted user cache is missing {$a} records/users.';
+$string['cache:fill:smart:limited'] = 'Append missing information to cache (max. 10 records)';
+

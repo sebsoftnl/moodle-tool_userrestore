@@ -42,8 +42,8 @@ $tasks = array(
     array(
         'classname' => 'tool_userrestore\task\filldeletedcache',
         'blocking'  => 0,
-        'minute'    => '0',
-        'hour'      => '2',
+        'minute'    => '*/10',
+        'hour'      => '*',
         'day'       => '*',
         'dayofweek' => '*',
         'month'     => '*'

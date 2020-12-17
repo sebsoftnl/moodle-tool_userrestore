@@ -122,11 +122,12 @@ class deletedusercache {
     }
 
     /**
-     * Refill complete cache.
+     * Refill cache.
      *
      * @param bool $smartfill if true, the cache will not be purged in advance and we'll only add missing info.
+     * @param int|null $maxfill Maximum number of records to proces at once.
      */
-    public static function fill_cache($smartfill = false) {
+    public static function fill_cache($smartfill = false, $maxfill = null) {
         global $DB, $CFG;
         // Clear cache.
         $cache = \cache::make('tool_userrestore', self::CACHE_STORE);
@@ -144,12 +145,17 @@ class deletedusercache {
             return true;
         }
         // And load data.
+        $counter = 0;
         foreach ($userids as $userid) {
             $key = self::KEY_USER_DELETED . $userid;
             if ($smartfill && $cache->has($key)) {
                 continue;
             }
             self::set_deleted_userinfo($userid, self::load_deleted_userinfo($userid));
+            $counter++;
+            if (!empty($maxfill) && ($counter >= $maxfill)) {
+                return;
+            }
         }
     }
 
@@ -176,6 +182,34 @@ class deletedusercache {
             $key = self::KEY_USER_DELETED . $key;
         }
         return $cache->has_all($userids);
+    }
+
+    /**
+     * Count number of missing accounts.
+     *
+     * @return int
+     */
+    public static function count_missing_entries() {
+        global $DB, $CFG;
+        $cache = \cache::make('tool_userrestore', self::CACHE_STORE);
+        // Load userids.
+        $noids = array_keys(get_admins());
+        $noids[] = $CFG->siteguest;
+        list($notinsql, $params) = $DB->get_in_or_equal($noids, SQL_PARAMS_NAMED, 'uid', false, 0);
+        $params['mnethostid'] = $CFG->mnet_localhost_id;
+        $select = 'deleted = 1 AND confirmed = 1 AND mnethostid = :mnethostid AND id '.$notinsql;
+        $userids = $DB->get_fieldset_select('user', 'id', $select, $params);
+        if (empty($userids)) {
+            return 0;
+        }
+        // And count.
+        $missing = 0;
+        foreach ($userids as $key) {
+            if (!$cache->has(self::KEY_USER_DELETED . $key)) {
+                $missing++;
+            }
+        }
+        return $missing;
     }
 
     /**

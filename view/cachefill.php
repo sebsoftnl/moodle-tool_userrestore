@@ -38,6 +38,7 @@ set_time_limit(0);
 $redirect = optional_param('redirect', null, PARAM_LOCALURL);
 $confirm = optional_param('confirm', 0, PARAM_INT);
 $smart = optional_param('smart', false, PARAM_BOOL);
+$maxfill = optional_param('max', null, PARAM_INT);
 $purge = optional_param('purge', 0, PARAM_INT);
 $context       = \context_system::instance();
 
@@ -50,7 +51,7 @@ $pageurl = new moodle_url('/' . $CFG->admin . '/tool/userrestore/view/cachefill.
 require_capability('tool/userrestore:administration', $context);
 
 if ($confirm) {
-    tool_userrestore\deletedusercache::fill_cache($smart);
+    tool_userrestore\deletedusercache::fill_cache($smart, $maxfill);
     if ($redirect) {
         redirect($redirect);
     } else {
@@ -75,10 +76,15 @@ if ($confirm) {
         echo $OUTPUT->single_button($confirmpurge, get_string('cache:purge', 'tool_userrestore'), 'get');
     } else {
         \tool_userrestore\util::print_notification(get_string('cache:fillneeded', 'tool_userrestore'), 'warn');
+        $missing = \tool_userrestore\deletedusercache::count_missing_entries();
+        \tool_userrestore\util::print_notification(get_string('cache:missing:numusers', 'tool_userrestore', $missing), 'warn');
         $confirmfill = new moodle_url($pageurl, ['confirm' => 1]);
         echo $OUTPUT->single_button($confirmfill, get_string('cache:fill', 'tool_userrestore'), 'get');
         $confirmfillsmart = new moodle_url($pageurl, ['confirm' => 1, 'smart' => 1]);
         echo $OUTPUT->single_button($confirmfillsmart, get_string('cache:fill:smart', 'tool_userrestore'), 'get');
+        $limit = 10;
+        $confirmfillsmartx = new moodle_url($pageurl, ['confirm' => 1, 'smart' => 1, 'max' => $limit]);
+        echo $OUTPUT->single_button($confirmfillsmartx, get_string('cache:fill:smart:limited', 'tool_userrestore', $limit), 'get');
     }
     echo '</div>';
     echo $OUTPUT->footer();

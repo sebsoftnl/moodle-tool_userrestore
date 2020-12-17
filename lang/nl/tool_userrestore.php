@@ -123,7 +123,7 @@ $string['privacy:metadata:tool_userrestore:mailedto'] = 'E-mailadres van de hers
 $string['privacy:metadata:tool_userrestore:timecreated'] = 'Tijdstip waarop de gegevens zijn aangemaakt.';
 
 $string['cache:fill'] = 'Cache volledig opnieuw vullen';
-$string['cache:fill:smart'] = 'Missend informatie aan cache toevoegen';
+$string['cache:fill:smart'] = 'Missende informatie aan cache toevoegen';
 $string['cache:fillneeded'] = 'De cache die nodig is om gebruikersgegevens voor verwijderde gebruikers te traceren is niet gevuld.<br/>
 Deze cache is nodig om het tonen van het herstelformulier voor gebruikersaccounts en gaat timeouts zo veel mogelijk tegen.<br/>
 Wees er a.u.b van bewust dat het vullen van de cache, afhankelijk van de grootte van je installatie een <i>langdurig proces</i> kan zijn.<br/>
@@ -134,3 +134,11 @@ Het verschil is dat aanvullen de cache <i>niet</i> van tevoren leegt, terwijl ee
 ';
 $string['cache:purge'] = 'Cache legen';
 $string['cache:iscomplete'] = 'Cache heeft alle benodigde informatie';
+$string['setting:enableuserdeletedobserver'] = 'Inhaken op gebeurtenis "gebruiker verwijderd"?';
+$string['setting:desc:enableuserdeletedobserver'] = 'Indien ingeschakeld zal dit een directe vulling van de cache bewerkstelligen wanneer een gebruiker wordt verijwderd
+als onderdeel van het verwijderproces.<br/>
+Dit heeft de potewntie om zeer lange verwerkingstijden of zelfs scipt timeouts met zich mee te brengen wanneer gebruikers in bluk worden verwijderd door beheerders.<br/>
+Als je deze instelling aan hebt staan en je vaker gebruikers in bulk verwijderd, is het misschien tijd om deze functionaliteit uit te zetten.
+';
+$string['cache:missing:numusers'] = 'Cache tbv informatie van verwijderde gebruikersaccounts mist {$a} gegevensrijen/gebruikers.';
+$string['cache:fill:smart:limited'] = 'Missend informatie aan cache toevoegen (max. 10 gegevensrijen)';

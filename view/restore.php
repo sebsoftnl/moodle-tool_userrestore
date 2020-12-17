@@ -66,12 +66,18 @@ if ($undeletecounter === 0) {
         echo '<div>';
         \tool_userrestore\util::print_view_tabs(array(), 'restore');
         \tool_userrestore\util::print_notification(get_string('cache:fillneeded', 'tool_userrestore'), 'warn');
+        $missing = \tool_userrestore\deletedusercache::count_missing_entries();
+        \tool_userrestore\util::print_notification(get_string('cache:missing:numusers', 'tool_userrestore', $missing), 'warn');
         $fillurl = new moodle_url('/' . $CFG->admin . '/tool/userrestore/view/cachefill.php',
                 ['confirm' => 1, 'redirect' => $pageurl->out(true)]);
         echo $OUTPUT->single_button($fillurl, get_string('cache:fill', 'tool_userrestore'), 'get');
         $confirmfillsmart = new moodle_url('/' . $CFG->admin . '/tool/userrestore/view/cachefill.php',
                 ['confirm' => 1, 'smart' => 1, 'redirect' => $pageurl->out(true)]);
         echo $OUTPUT->single_button($confirmfillsmart, get_string('cache:fill:smart', 'tool_userrestore'), 'get');
+        $limit = 10;
+        $confirmfillsmartx = new moodle_url($pageurl,
+                ['confirm' => 1, 'smart' => 1, 'max' => $limit, 'redirect' => $pageurl->out(true)]);
+        echo $OUTPUT->single_button($confirmfillsmartx, get_string('cache:fill:smart:limited', 'tool_userrestore', $limit), 'get');
         echo $OUTPUT->footer();
         exit;
     }

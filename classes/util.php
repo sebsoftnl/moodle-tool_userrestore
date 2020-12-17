@@ -46,6 +46,16 @@ class util {
     }
 
     /**
+     * Check if logstore is storing the "other" field in JSON or otherwise.
+     *
+     * @return bool
+     */
+    static public function is_jsonformat() {
+        $value = get_config('logstore_standard', 'jsonformat');
+        return (bool)$value;
+    }
+
+    /**
      * Count users that are applicable for undeletion.
      *
      * @return boolean
@@ -102,7 +112,11 @@ class util {
                 $logrecord = $DB->get_record_sql($sql, $params);
                 if (!empty($logrecord)) {
                     $fallback       = false;
-                    $olddata        = unserialize($logrecord->other);
+                    if (static::is_jsonformat()) {
+                        $olddata = json_decode($logrecord->other, true);
+                    } else {
+                        $olddata = unserialize($logrecord->other);
+                    }
                     $user->email    = $olddata['email'];
                     $user->username = $olddata['username'];
                 }
@@ -195,7 +209,11 @@ class util {
             $params = array('core', 'deleted', 'user', $user->id);
             $logrecord = $DB->get_record_sql($sql, $params);
             if (!empty($logrecord)) {
-                $olddata                  = unserialize($logrecord->other);
+                if (static::is_jsonformat()) {
+                    $olddata = json_decode($logrecord->other, true);
+                } else {
+                    $olddata = unserialize($logrecord->other);
+                }
                 $updateuser               = new \stdClass();
                 $updateuser->id           = $userrecord->id;
                 $updateuser->deleted      = 0;

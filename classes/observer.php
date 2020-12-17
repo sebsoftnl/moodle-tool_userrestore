@@ -54,6 +54,10 @@ class observer {
      */
     public static function user_deleted(\core\event\user_deleted $event) {
         global $CFG;
+        $enableobserver = (bool) config::get('enableuserdeletedobserver');
+        if (!$enableobserver) {
+            return;
+        }
         if ($event->other['mnethostid'] != $CFG->mnet_localhost_id) {
             // Remote user: do not store.
             return;

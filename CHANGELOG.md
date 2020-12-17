@@ -1,3 +1,13 @@
+Version 3.6.2 (build 2019060102)
+* Unserialsation of event logs now checks logstore settings for JSON serialisation or json encoded data.
+* Added setting to enable or disable the user_deleted observer due to the fact bulk deletion is severely impacted by this.
+  The default is now <i>not</i> to use the observer.
+* Changed default cachefill task to run every 10 minutes by default.
+* Changed mimimal Moodle version to 3.7
+* Added limited cachefill (10 records at once)
+
+----------
+
 Version 3.6.1 (build 2019060101)
 * Updated privacy provider.
 ----------
