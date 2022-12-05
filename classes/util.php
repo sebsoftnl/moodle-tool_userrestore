@@ -107,9 +107,10 @@ class util {
                 // We can use the event data!
                 $sql = 'SELECT l.other ';
                 $sql .= 'FROM {logstore_standard_log} l JOIN {user} u ON l.objectid=u.id ';
-                $sql .= 'WHERE component = ? AND action= ? AND l.target = ? AND l.objectid = ? ORDER BY l.timecreated DESC LIMIT 1';
+                $sql .= 'WHERE component = ? AND action= ? AND l.target = ? AND l.objectid = ? ORDER BY l.timecreated DESC';
                 $params = array('core', 'deleted', 'user', $user->id);
-                $logrecord = $DB->get_record_sql($sql, $params);
+                /** @var \moodle_database $DB */
+                $logrecord = $DB->get_record_sql($sql, $params, IGNORE_MISSING);
                 if (!empty($logrecord)) {
                     $fallback       = false;
                     if (static::is_jsonformat()) {
@@ -151,15 +152,15 @@ class util {
                 // We can use the event data!
                 $sql = 'SELECT ' . $DB->sql_fullname() . ' AS deletedby, u.id AS deletedbyid, l.timecreated AS timedeletedby ';
                 $sql .= 'FROM {logstore_standard_log} l JOIN {user} u ON l.userid=u.id ';
-                $sql .= 'WHERE component = ? AND action= ? AND l.target = ? AND l.objectid = ? ORDER BY l.timecreated DESC LIMIT 1';
+                $sql .= 'WHERE component = ? AND action= ? AND l.target = ? AND l.objectid = ? ORDER BY l.timecreated';
                 $params = array('core', 'deleted', 'user', $user->id);
             } else {
                 $sql = 'SELECT ' . $DB->sql_fullname() . ' AS deletedby, u.id AS deletedbyid, l.time AS timedeletedby ';
                 $sql .= 'FROM {log} l JOIN {user} u ON l.userid=u.id ';
-                $sql .= 'WHERE module = ? AND action= ? AND l.url = ? ORDER BY l.time DESC LIMIT 1';
+                $sql .= 'WHERE module = ? AND action= ? AND l.url = ? ORDER BY l.time DESC';
                 $params = array('user', 'delete', 'view.php?id=' . $user->id);
             }
-            $logrecord = $DB->get_record_sql($sql, $params);
+            $logrecord = $DB->get_record_sql($sql, $params, IGNORE_MISSING);
             if (!empty($logrecord)) {
                 $user->deletedby = $logrecord->deletedby;
                 $user->deletedbyid = $logrecord->deletedbyid;
@@ -205,9 +206,9 @@ class util {
             // We can use the event data!
             $sql = 'SELECT l.other ';
             $sql .= 'FROM {logstore_standard_log} l JOIN {user} u ON l.userid=u.id ';
-            $sql .= 'WHERE component = ? AND action= ? AND l.target = ? AND l.objectid = ? ORDER BY l.timecreated DESC LIMIT 1';
+            $sql .= 'WHERE component = ? AND action= ? AND l.target = ? AND l.objectid = ? ORDER BY l.timecreated DESC';
             $params = array('core', 'deleted', 'user', $user->id);
-            $logrecord = $DB->get_record_sql($sql, $params);
+            $logrecord = $DB->get_record_sql($sql, $params, IGNORE_MISSING);
             if (!empty($logrecord)) {
                 if (static::is_jsonformat()) {
                     $olddata = json_decode($logrecord->other, true);

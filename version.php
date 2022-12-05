@@ -29,10 +29,10 @@
 defined('MOODLE_INTERNAL') || die;
 
 $plugin = new stdClass();
-$plugin->version   = 2019060102;
+$plugin->version   = 2022051200;
 $plugin->requires  = 2019052000;      // YYYYMMDDHH (This is the release version for Moodle 3.7).
 $plugin->cron      = 0;
 $plugin->component = 'tool_userrestore'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '3.6.2 (build 2019060102)';
+$plugin->release   = '3.6.3 (build 2022051200)';
 $plugin->dependencies = array();

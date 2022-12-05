@@ -1,3 +1,8 @@
+Version 3.6.3 (build 2019060103)
+* Removed "LIMIT 1" and replaced with IGNORE_MISSING in util.php (DB engine compatibility).
+
+----------
+
 Version 3.6.2 (build 2019060102)
 * Unserialsation of event logs now checks logstore settings for JSON serialisation or json encoded data.
 * Added setting to enable or disable the user_deleted observer due to the fact bulk deletion is severely impacted by this.
