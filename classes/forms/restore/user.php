@@ -94,7 +94,6 @@ class user extends \moodleform {
      * @throws \moodle_exception
      */
     public function process() {
-        global $DB;
         $data = $this->get_data();
         if ($data === null) {
             return false;
@@ -108,10 +107,6 @@ class user extends \moodleform {
                     $data->restoreids[] = (int)str_replace('user_', '', $key);
                 }
             }
-        }
-
-        if ($data->sendmail) {
-            $mailcontents = $data->mailbody['text'];
         }
 
         foreach ($data->restoreids as $uid) {

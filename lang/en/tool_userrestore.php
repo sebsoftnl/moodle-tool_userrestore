@@ -146,4 +146,3 @@ It should be treated very carefully. If you have this setting enabled and you de
 ';
 $string['cache:missing:numusers'] = 'Deleted user cache is missing {$a} records/users.';
 $string['cache:fill:smart:limited'] = 'Append missing information to cache (max. 10 records)';
-

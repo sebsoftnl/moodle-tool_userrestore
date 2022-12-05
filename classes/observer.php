@@ -29,13 +29,6 @@
 
 namespace tool_userrestore;
 
-use core\event\course_module_viewed;
-use core\event\user_loggedin;
-use core\event\course_module_completion_updated;
-use tool_userrestore\caches\userstatistics;
-
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * tool_userrestore\observer
  *

@@ -25,8 +25,6 @@
 
 namespace tool_userrestore;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * tool_userrestore\util
  *
@@ -50,7 +48,7 @@ class util {
      *
      * @return bool
      */
-    static public function is_jsonformat() {
+    public static function is_jsonformat() {
         $value = get_config('logstore_standard', 'jsonformat');
         return (bool)$value;
     }
@@ -60,7 +58,7 @@ class util {
      *
      * @return boolean
      */
-    static final public function count_users_to_undelete() {
+    final public static function count_users_to_undelete() {
         global $CFG, $DB;
         $params = array('confirmed' => 1, 'deleted' => 1, 'mnethostid' => $CFG->mnet_localhost_id);
         return $DB->count_records('user', $params);
@@ -75,7 +73,7 @@ class util {
      * @param int $limitnum number of results
      * @return boolean
      */
-    static final public function load_users_to_undelete($autoconvert = false, $includeloginfo = false,
+    final public static function load_users_to_undelete($autoconvert = false, $includeloginfo = false,
             $limitfrom = 0, $limitnum = 0) {
         global $CFG, $DB;
         $params = array('confirmed' => 1, 'deleted' => 1, 'mnethostid' => $CFG->mnet_localhost_id);
@@ -96,7 +94,7 @@ class util {
      * @param array $users list of user objects
      * @return void
      */
-    static final public function convert_undelete_users(&$users) {
+    final public static function convert_undelete_users(&$users) {
         global  $DB;
 
         $dbman = $DB->get_manager();
@@ -109,7 +107,6 @@ class util {
                 $sql .= 'FROM {logstore_standard_log} l JOIN {user} u ON l.objectid=u.id ';
                 $sql .= 'WHERE component = ? AND action= ? AND l.target = ? AND l.objectid = ? ORDER BY l.timecreated DESC';
                 $params = array('core', 'deleted', 'user', $user->id);
-                /** @var \moodle_database $DB */
                 $logrecord = $DB->get_record_sql($sql, $params, IGNORE_MISSING);
                 if (!empty($logrecord)) {
                     $fallback       = false;
@@ -142,7 +139,7 @@ class util {
      * @param array $users list of user objects
      * @return void
      */
-    static final public function append_deleted_users_loginfo(&$users) {
+    final public static function append_deleted_users_loginfo(&$users) {
         global $DB;
 
         $dbman = $DB->get_manager();
@@ -182,7 +179,7 @@ class util {
      * @param string $emailsubject email subject
      * @param string $emailbody email body
      */
-    static public final function do_undelete_user($user, $sendemail = false, $emailsubject = '', $emailbody = '') {
+    final public static function do_undelete_user($user, $sendemail = false, $emailsubject = '', $emailbody = '') {
         global $CFG, $DB;
         require_once($CFG->dirroot . '/user/lib.php');
 
@@ -293,7 +290,7 @@ class util {
      * @param \stdClass $user user record
      * @param bool $emailsent whether or not the email was sent
      */
-    static public final function process_status_record($user, $emailsent) {
+    final public static function process_status_record($user, $emailsent) {
         global $DB;
         // Move existing record to log.
         $recordstolog = $DB->get_records('tool_userrestore_status', array('userid' => $user->id));
@@ -352,7 +349,7 @@ class util {
      *
      * @return boolean
      */
-    static public function clean_logs() {
+    public static function clean_logs() {
         global $DB;
         if (!(bool)config::get('enablecleanlogs')) {
             return false;
@@ -420,7 +417,7 @@ class util {
      * @param array $params basic url parameters
      * @param string $selected id of the selected tab
      */
-    static public function print_view_tabs($params, $selected) {
+    public static function print_view_tabs($params, $selected) {
         global $CFG, $OUTPUT;
         $tabs = array();
         // Add restore tab.
@@ -453,7 +450,7 @@ class util {
      * @param array $users list of user objects
      * @return void
      */
-    static final public function convert_undelete_users_cached(&$users) {
+    final public static function convert_undelete_users_cached(&$users) {
         foreach ($users as &$user) {
             $cacheinfo = deletedusercache::get_info($user->id);
             if (!empty($cacheinfo)) {
@@ -473,7 +470,7 @@ class util {
      * @param array $users list of user objects
      * @return void
      */
-    static final public function append_deleted_users_loginfo_cached(&$users) {
+    final public static function append_deleted_users_loginfo_cached(&$users) {
         foreach ($users as &$user) {
             $cacheinfo = deletedusercache::get_info($user->id);
             if (!empty($cacheinfo)) {

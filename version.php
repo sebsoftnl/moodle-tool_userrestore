@@ -35,4 +35,4 @@ $plugin->cron      = 0;
 $plugin->component = 'tool_userrestore'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->release   = '3.6.3 (build 2022051200)';
-$plugin->dependencies = array();
+$plugin->dependencies = [];

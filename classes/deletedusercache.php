@@ -25,8 +25,6 @@
 
 namespace tool_userrestore;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * tool_userrestore\deletedusercache
  *
@@ -79,7 +77,7 @@ class deletedusercache {
         $key = self::KEY_USER_DELETED . $userid;
 
         if ($cache->has($key)) {
-            return $data = $cache->get($key);
+            return $cache->get($key);
         } else {
             return self::set_deleted_userinfo($userid, self::load_deleted_userinfo($userid));
         }

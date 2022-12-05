@@ -25,9 +25,6 @@
 
 namespace tool_userrestore\task;
 
-defined('MOODLE_INTERNAL') || die;
-use tool_userrestore\config;
-
 /**
  * Description of logclean
  *
@@ -54,7 +51,7 @@ class logclean extends \core\task\scheduled_task {
      * @return void
      */
     public function execute() {
-        if (!(bool)config::get('enablecleanlogs')) {
+        if (!(bool)\tool_userrestore\config::get('enablecleanlogs')) {
             mtrace(get_string('config:cleanlogs:disabled', 'tool_userrestore'));
             return;
         }
