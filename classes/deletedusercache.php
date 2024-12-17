@@ -112,7 +112,9 @@ class deletedusercache {
      */
     protected static function load_deleted_userinfo($userid) {
         global $DB;
-        $fields = 'id, username, email, ' . get_all_user_name_fields(true) . ', timemodified';
+        $userfieldsapi = \core_user\fields::for_name();
+        $namefields = $userfieldsapi->get_sql('', false, '', '', false)->selects;
+        $fields = 'id, username, email, ' . $namefields . ', timemodified';
         $user = $DB->get_record('user', ['id' => $userid], $fields);
         $reference = [$user];
         util::convert_undelete_users($reference);

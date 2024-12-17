@@ -79,7 +79,9 @@ class util {
             $limitfrom = 0, $limitnum = 0) {
         global $CFG, $DB;
         $params = array('confirmed' => 1, 'deleted' => 1, 'mnethostid' => $CFG->mnet_localhost_id);
-        $fields = 'id, ' . get_all_user_name_fields(true) . ', timemodified';
+        $userfieldsapi = \core_user\fields::for_name();
+        $namefields = $userfieldsapi->get_sql('', false, '', '', false)->selects;
+        $fields = 'id, ' . $namefields . ', timemodified';
         $users = $DB->get_records('user', $params, 'firstname ASC', $fields, $limitfrom, $limitnum);
         if ($autoconvert) {
             self::convert_undelete_users_cached($users);
