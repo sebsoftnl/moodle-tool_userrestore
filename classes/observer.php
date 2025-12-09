@@ -62,7 +62,7 @@ class observer {
         $r = (object)[
             'userid' => $event->relateduserid,
             'refid' => 0, // Meaning it did NOT come from the logstore itself.
-            'restoredata' => $event->other,
+            'restoredata' => json_encode($event->other),
             'usercreated' => $event->userid,
             'timecreated' => $event->timecreated,
         ];

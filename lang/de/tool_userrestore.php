@@ -27,27 +27,23 @@
  * @author      GERMAN translation: Guido Hornig hornig@lernlink.de
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$string['pluginname'] = 'User Restore';
-
-$string['promo'] = 'Benutzerweiderherstellung für  Moodle';
-$string['promodesc'] = 'Dieses Plugin wurde von Sebsoft Managed Hosting & Software Development erstellt. Deutsche Übersetzeung: www.lern.link.de
-    (<a href=\'http://www.sebsoft.nl/\' target=\'_new\'>http://sebsoft.nl</a>).<br /><br />
-    {$a}<br /><br />';
-
-$string['timedeleted'] = 'Gelöscht am';
-$string['deletedby'] = 'Geöscht von';
-$string['hasloginfo'] = 'Log verfügbar?';
-
-$string['link:restore'] = 'Benutzer wiederherstellen';
-$string['link:log'] = 'Log-Daten wiederherstellen';
-$string['link:viewstatus'] = 'Zeige Statusliste';
-$string['link:log:overview'] = 'Zeige Statusänderungs-Log';
-$string['link:currentstatus:overview'] = 'Zeige aktuelle Statusänderung';
-
-$string['form:label:sendmail'] = 'E-Mail senden';
-$string['form:label:email'] = 'E-Mail Text';
-$string['form:label:subject'] = 'E-Mail Betreff';
+$string['button:backtoform'] = 'Zurück zum Wiederherstellungsformular';
 $string['button:userrestore:continue'] = 'Restore users';
+$string['config:cleanlogs:disabled'] = 'Automaische Löschung der Wiederherstellungshistorie ist allgemein abgeschaltet.';
+$string['deletedby'] = 'Gelöscht von';
+$string['email:user:restore:body'] = '<p>Guten Tag {fullname}</p>
+<p>Nach einer Löschung wurden Ihre Benutzerdaten wiederhergestellt.</p>
+<p>Evtl. wurde Ihr Benutzername nicht korrekt wiederhergestellt, da alle Daten aus Log-Dateien erzeugt werden und möglicherweise nicht alle Log-Daten lange genug aufbewahrt wurden, um eine vollständige Rekonstruktion zu ermöglichen.</p>
+<p>Ihr aktueller Anmeldename ist: {username}</p>
+<p>Wenn die Daten nicht stimmen oder andere Fragen entstanden sind, wenden Sie sich bitte an: {contact}.</p>
+<p>Wenn Ihr bisheriges Kennwort nicht mehr funktioniert,<br/> dann nutzen Sie Ihre E-Mailadresse für die Zurücksetzung des Kennworts.<br/>
+{loginlink}</p>
+<p>Mit freundlichen Grüßen<br/>{signature}</p>';
+$string['email:user:restore:subject'] = 'Ihre Benutzerdaten wurden wiederhergestellt';
+$string['event:user:restored'] = 'User restored';
+$string['form:label:email'] = 'E-Mail Text';
+$string['form:label:sendmail'] = 'E-Mail senden';
+$string['form:label:subject'] = 'E-Mail Betreff';
 $string['form:static:email:template'] = 'You can use the following template strings in your email.
 They will automatically be replaced with the correct variables. Please use the exactly as indicated, or the result might be unexpected.
 Die folgenden Platzhalter können im E-Mail Text genutzt werden. Sie werden automatisch mit durch die aktuellen Inhaltern ersetzt. Schreibweise bitte exakt einhalten.
@@ -61,50 +57,40 @@ Die folgenden Platzhalter können im E-Mail Text genutzt werden. Sie werden auto
 <li>{loginlink} - Login-link der moodle-Installation (mit Anmeldename)</li>
 </ul>
 ';
-
-$string['restoresettings'] = 'Benutzer Wiederherstellungs Einstellungen';
-$string['restoresettingsdesc'] = '';
-$string['setting:enablecleanlogs'] = 'Log-Datei aufräumen';
-$string['setting:desc:enablecleanlogs'] = 'Aktiviert/deaktiviert automatisches löschen der Wiederherstellungshistorie.';
-$string['setting:cleanlogsafter'] = 'Wiederherstellungshistorie regelmäßig löschen';
-$string['setting:desc:cleanlogsafter'] = 'Einstellungen zur löschung der Wiederherstellunghistorie. Historie wird unwiederruflich gelöscht.';
-$string['config:cleanlogs:disabled'] = 'Automaische Löschung der Wiederherstellungshistorie ist allgemein abgeschaltet.';
-
-$string['page:view:restore.php:introduction'] = 'Dieses Formular ermöglicht die Auswahl von gelöschten Benutzerdaten zur Wiederherstellung und Zusendung einer Info-Mail. Beachten:Die Daten werden aus dem Event.Log erzeugt.';
-$string['page:view:log.php:introduction'] = 'Diese Tabelle zeigt den  Statusbericht zu den wiederhergestellten Benutzerdaten.';
-
-$string['config:tool:disabled'] = 'Die Funktion Benutzerdaten-Wiederherstellung ist grundsätzlich abgeschaltet.';
-
-$string['err:statustable:set_sql'] = 'set_sql() is disabled. This table defines it\'s own and is not customomizable';
+$string['hasloginfo'] = 'Log verfügbar?';
 $string['label:users:potential'] = 'Potentielle Benutzerdaten';
-$string['restore:username-exists'] = 'Nicht wiederherstellbar: Anmeldename \'{$a->username}\' wird von einem aktiven Benutzer verwendet';
+$string['link:reset'] = 'Reset';
+$string['link:restore'] = 'Benutzer wiederherstellen';
+$string['msg:no-users-to-restore'] = 'keine Wiederherstellungshistorie gefunden.';
+$string['notice:readprogress'] = 'Logstore reading has not completely finished yet, so not all userdata may be available. Current read progress: {$a->percentage}% (of {$a->total} records).';
+$string['page:view:log.php:introduction'] = 'Diese Tabelle zeigt den  Statusbericht zu den wiederhergestellten Benutzerdaten.';
+$string['page:view:restore.php:introduction'] = 'Dieses Formular ermöglicht die Auswahl von gelöschten Benutzerdaten zur Wiederherstellung und Zusendung einer Info-Mail. Beachten:Die Daten werden aus dem Event.Log erzeugt.';
+$string['pluginname'] = 'User Restore';
+$string['promo'] = 'Benutzerweiderherstellung für  Moodle';
+$string['promodesc'] = 'Dieses Plugin wurde von Sebsoft Managed Hosting & Software Development erstellt. Deutsche Übersetzeung: www.lern.link.de
+    (<a href=\'http://www.sebsoft.nl/\' target=\'_new\'>http://sebsoft.nl</a>).<br /><br />
+    {$a}<br /><br />';
+$string['reset'] = 'Reset';
+$string['restore:deleted-user-not-found'] = 'Nicht wiederherstellbar: Gelöschter Benutzer wurde nicht gefunden';
 $string['restore:email-exists'] = 'Nicht wiederherstellbar: E-Mail-Adresse \'{$a->email}\' wird von einem aktiven Benutzer verwendet';
 $string['restore:user-mnet-not-local'] = 'Nicht wiederherstellbar: MNET host für diesen Benutzer ist kein MNET-Host';
 $string['restore:user-restored'] = 'Benutzer <i>\'{$a->username}\'</i> (\'{$a->email}\') wurde wiederhergestellt';
-$string['restore:deleted-user-not-found'] = 'Nicht wiederherstellbar: Gelöschter Benutzer wurde nicht gefunden';
-
-$string['th:userid'] = 'User ID';
-$string['th:name'] = 'Name';
-$string['th:restored'] = 'Wiederhergestellt';
-$string['th:mailsent'] = 'E-Mail gesendet';
-$string['th:mailedto'] = 'E-Mail an';
-$string['th:timecreated'] = 'Erzeugt am';
-$string['th:action'] = 'Aktion';
-
-$string['button:backtocourse'] = 'Zurück zum Kurs';
-$string['button:backtoform'] = 'Zurück zum Wiederherstellungsformular';
-
-$string['email:user:restore:subject'] = 'Ihre Benutzerdaten wurden wiederhergestellt';
-$string['email:user:restore:body'] = '<p>Guten Tag {fullname}</p>
-<p>Nach einer Löschung wurden Ihre Benutzerdaten wiederhergestellt.</p>
-<p>Evtl. wurde Ihr Benutzername nicht korrekt wiederhergestellt, da alle Daten aus Log-Dateien erzeugt werden und möglicherweise nicht alle Log-Daten lange genug aufbewahrt wurden, um eine vollständige Rekonstruktion zu ermöglichen.</p>
-<p>Ihr aktueller Anmeldename ist: {username}</p>
-<p>Wenn die Daten nicht stimmen oder andere Fragen entstanden sind, wenden Sie sich bitte an: {contact}.</p>
-<p>Wenn Ihr bisheriges Kennwort nicht mehr funktioniert,<br/> dann nutzen Sie Ihre E-Mailadresse für die Zurücksetzung des Kennworts.<br/>
-{loginlink}</p>
-<p>Mit freundlichen Grüßen<br/>{signature}</p>';
-$string['table:logs'] = 'Log-Daten';
+$string['restore:username-exists'] = 'Nicht wiederherstellbar: Anmeldename \'{$a->username}\' wird von einem aktiven Benutzer verwendet';
+$string['restoresettings'] = 'Benutzer Wiederherstellungs Einstellungen';
+$string['restoresettingsdesc'] = '';
+$string['setting:cleanlogsafter'] = 'Wiederherstellungshistorie regelmäßig löschen';
+$string['setting:desc:cleanlogsafter'] = 'Einstellungen zur löschung der Wiederherstellunghistorie. Historie wird unwiederruflich gelöscht.';
+$string['setting:desc:enablecleanlogs'] = 'Aktiviert/deaktiviert automatisches löschen der Wiederherstellungshistorie.';
+$string['setting:enablecleanlogs'] = 'Log-Datei aufräumen';
 $string['table:log:all'] = 'Wiederherstellungshistorie';
 $string['table:log:latest'] = 'Aktuelle Wiederherstellungshistorie';
+$string['table:logs'] = 'Log-Daten';
 $string['task:logclean'] = 'Wiederherstellungshistorie aufräumen';
-$string['msg:no-users-to-restore'] = 'keine Wiederherstellungshistorie gefunden.';
+$string['th:action'] = 'Aktion';
+$string['th:mailedto'] = 'E-Mail an';
+$string['th:mailsent'] = 'E-Mail gesendet';
+$string['th:name'] = 'Name';
+$string['th:restored'] = 'Wiederhergestellt';
+$string['th:timecreated'] = 'Erzeugt am';
+$string['th:userid'] = 'User ID';
+$string['timedeleted'] = 'Gelöscht am';

@@ -230,13 +230,13 @@ class util {
         }
 
         $updateuser = null;
-        $sql = 'SELECT ud.other ';
+        $sql = 'SELECT ud.restoredata ';
         $sql .= 'FROM {tool_userrestore_data} ud JOIN {user} u ON ud.userid=u.id ';
         $sql .= 'WHERE ud.userid = ? ORDER BY ud.timecreated DESC';
         $params = [$user->id];
         $logrecord = $DB->get_record_sql($sql, $params, IGNORE_MISSING);
         if (!empty($logrecord)) {
-            $olddata = json_decode($logrecord->other, true);
+            $olddata = json_decode($logrecord->restoredata, true);
             $updateuser = new \stdClass();
             $updateuser->id = $userrecord->id;
             $updateuser->deleted = 0;
