@@ -23,16 +23,16 @@
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- **/
+ * */
 defined('MOODLE_INTERNAL') || die;
 
 $plugin = new stdClass();
-$plugin->version   = 2022051200;
-$plugin->requires  = 2019052000;      // YYYYMMDDHH (This is the release version for Moodle 3.7).
-$plugin->cron      = 0;
+$plugin->version = 2025120100;
+$plugin->requires = 2023042400; // YYYYMMDDHH (This is the release version for Moodle 4.2).
+$plugin->cron = 0;
 $plugin->component = 'tool_userrestore'; // Full name of the plugin (used for diagnostics).
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '3.6.3 (build 2022051200)';
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = '4.0.0 (build 2025120100)';
 $plugin->dependencies = [];

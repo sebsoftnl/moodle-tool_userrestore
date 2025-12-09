@@ -23,25 +23,25 @@
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  **/
 defined('MOODLE_INTERNAL') || die;
 
-$capabilities = array(
-    'tool/userrestore:administration' => array(
+$capabilities = [
+    'tool/userrestore:administration' => [
         'captype' => 'view',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
+        'archetypes' => [
             'manager' => CAP_ALLOW,
-        )
-    ),
-    'tool/userrestore:viewstatus' => array(
+        ],
+    ],
+    'tool/userrestore:viewstatus' => [
         'captype' => 'view',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
+        'archetypes' => [
             'manager' => CAP_ALLOW,
-        )
-    ),
-);
+        ],
+    ],
+];

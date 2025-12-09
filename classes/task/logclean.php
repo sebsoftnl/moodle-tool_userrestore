@@ -19,6 +19,9 @@
  *
  * File         logclean.php
  * Encoding     UTF-8
+ *
+ * @package     tool_userrestore
+ *
  * @copyright   Sebsoft.nl
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,11 +34,10 @@ namespace tool_userrestore\task;
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class logclean extends \core\task\scheduled_task {
-
     /**
      * Return the localised name for this task
      *
@@ -57,5 +59,4 @@ class logclean extends \core\task\scheduled_task {
         }
         \tool_userrestore\util::clean_logs();
     }
-
 }

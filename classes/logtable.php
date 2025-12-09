@@ -18,6 +18,9 @@
  * this file contains the status table class to display certain users statusses.
  *
  * File         logtable.php
+ *
+ * @package     tool_userrestore
+ *
  * Encoding     UTF-8
  * @copyright   Sebsoft.nl
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -34,11 +37,10 @@ require_once($CFG->libdir . '/tablelib.php');
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class logtable extends \table_sql {
-
     /**
      * Do we render the history or the current status?
      *
@@ -53,7 +55,7 @@ class logtable extends \table_sql {
      */
     public function __construct($showhistory = true) {
         global $USER;
-        parent::__construct(__CLASS__. '-' . $USER->id . ((int)$showhistory));
+        parent::__construct(__CLASS__ . '-' . $USER->id . ((int)$showhistory));
         $this->showhistory = (bool)$showhistory;
     }
 
@@ -64,10 +66,10 @@ class logtable extends \table_sql {
      * @param string $fields
      * @param string $from
      * @param string $where
-     * @param array $params
+     * @param array|null $params
      * @throws exception
      */
-    public function set_sql($fields, $from, $where, array $params = null) {
+    public function set_sql($fields, $from, $where, ?array $params = null) {
         // We'll disable this method.
         throw new exception('err:statustable:set_sql');
     }
@@ -80,7 +82,15 @@ class logtable extends \table_sql {
      */
     public function render_log($pagesize, $useinitialsbar = true) {
         global $DB;
-        $this->define_table_columns(array('userid', 'name', 'restored', 'mailsent', 'mailedto', 'timecreated'));
+        $this->define_columns(['userid', 'name', 'restored', 'mailsent', 'mailedto', 'timecreated']);
+        $this->define_headers([
+            get_string('th:userid', 'tool_userrestore'),
+            get_string('th:name', 'tool_userrestore'),
+            get_string('th:restored', 'tool_userrestore'),
+            get_string('th:mailsent', 'tool_userrestore'),
+            get_string('th:mailedto', 'tool_userrestore'),
+            get_string('th:timecreated', 'tool_userrestore'),
+        ]);
         $fields = 'l.id,l.userid,' . $DB->sql_fullname('u.firstname', 'u.lastname') .
                 ' AS name,l.restored,l.mailsent,l.mailedto,l.timecreated,NULL AS action';
         $table = ($this->showhistory ? 'tool_userrestore_log' : 'tool_userrestore_status');
@@ -108,49 +118,7 @@ class logtable extends \table_sql {
      * @return string actions
      */
     public function col_action($row) {
-        $actions = array();
+        $actions = [];
         return implode('', $actions);
     }
-
-    /**
-     * Return the image tag representing an action image
-     *
-     * @param string $action
-     * @return string HTML image tag
-     */
-    protected function get_action_image($action) {
-        global $OUTPUT;
-        return '<img src="' . $OUTPUT->image_url($action, 'tool_userrestore') . '"/>';
-    }
-
-    /**
-     * Return a string containing the link to an action
-     *
-     * @param \stdClass $row
-     * @param string $action
-     * @return string link representing the action with an image
-     */
-    protected function get_action($row, $action) {
-        $actionstr = 'str' . $action;
-        return '<a href="' . new \moodle_url($this->baseurl,
-                array('action' => $action, 'id' => $row->id)) .
-                '" alt="' . $this->{$actionstr} .
-                '">' . $this->get_action_image($action) . '</a>';
-    }
-
-    /**
-     * Define columns for output table and define the headers through automated
-     * lookup of the language strings.
-     *
-     * @param array $columns list of column names
-     */
-    protected function define_table_columns($columns) {
-        $this->define_columns($columns);
-        $headers = array();
-        foreach ($columns as $name) {
-            $headers[] = get_string('th:' . $name, 'tool_userrestore');
-        }
-        $this->define_headers($headers);
-    }
-
 }

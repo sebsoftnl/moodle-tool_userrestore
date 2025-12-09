@@ -23,32 +23,32 @@
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$string['pluginname'] = 'Gebruikersherstel';
-
-$string['promo'] = 'Gebruikersherstel plugin voor Moodle';
-$string['promodesc'] = 'Deze plugin is ontwikkeld door Sebsoft Managed Hosting & Software Development
-    (<a href=\'http://www.sebsoft.nl/\' target=\'_new\'>http://www.sebsoft.nl</a>).<br /><br />
-    {$a}<br /><br />';
-
-$string['timedeleted'] = 'Verwijderd op';
-$string['deletedby'] = 'Verwijderd door';
-
-$string['link:restore'] = 'Gebruikers herstellen';
-$string['link:log'] = 'Gebruikersherstel logs';
-$string['link:viewstatus'] = 'Status overzicht inzien';
-$string['link:log:overview'] = 'Statiswijzigingen inzien';
-$string['link:currentstatus:overview'] = 'Huidige statussen inzien';
-$string['link:cache'] = 'Cache';
-
-$string['form:label:sendmail'] = 'E-mail verzenden?';
-$string['form:label:email'] = 'E-mail tekst';
-$string['form:label:subject'] = 'E-mail onderwerp';
+$string['button:backtoform'] = 'Terug naar gebruikersherstel formulier';
 $string['button:userrestore:continue'] = 'Herstel gebruikers';
+$string['config:cleanlogs:disabled'] = 'Automatisch opschonen van logs is uitgeschakeld in de globale instellingen';
+$string['deletedby'] = 'Verwijderd door';
+$string['email:user:restore:body'] = '<p>Beste {fullname}</p>
+<p>Je gebruikersaccount is hersteld</p>
+<p>Je gebruikersnaam kon mogelijk niet correct hersteld worden.
+Dit is afhankelijk van de informatie die beschikbaar is of was op moment van verwijderen.
+Vanaf nu is je gebruikersnaam dan ook {username}.</p>
+<p>Wanneer je van mening bent dat dit onbedoeld is, of wanneer je vragen hebt,
+neem dan alsjeblieft contact op met {contact}</p>
+<p>Je zou moeten kunnen inloggen met je originele wachtwoord.<br/>
+Als dit niet het geval is, gebruik dan het emailadres waar deze email naartoe is verzonden om een wachtwoord reset aan te vragen.<br/>
+Log alsjeblieft in op de site om alle informatie weer aan te vullen door onderstaande link te volgen:<br/>
+{loginlink}</p>
+<p>Met vriendelijke groet,<br/>{signature}</p>';
+$string['email:user:restore:subject'] = 'Je account is hersteld';
+$string['event:user:restored'] = 'Gebruikersaccount hersteld';
+$string['form:label:email'] = 'E-mail tekst';
+$string['form:label:sendmail'] = 'E-mail verzenden?';
+$string['form:label:subject'] = 'E-mail onderwerp';
 $string['form:static:email:template'] = 'Je kunt de volgende template variabelen in je email gebruiken.
-Ze zullen automatisch worden vervangen door de correcte waarden. Gebruik ze alsjebielft exact zoals aangegeven, anders zijn de resultaten mogelijk anders dan verwacht.
+Ze zullen automatisch worden vervangen door de correcte waarden. Gebruik ze alsjeblieft exact zoals aangegeven, anders zijn de resultaten mogelijk anders dan verwacht.
 <ul>
 <li>{firstname} - Voornaam van de te herstellen gebruiker</li>
 <li>{lastname} - Achternaam van de te herstellen gebruiker</li>
@@ -59,86 +59,66 @@ Ze zullen automatisch worden vervangen door de correcte waarden. Gebruik ze alsj
 <li>{loginlink} - Link om op de site in te loggen (op basis van herstelde gebruikersnaam)</li>
 </ul>
 ';
-
-$string['restoresettings'] = 'Instellingen voor gebruikersherstel';
-$string['restoresettingsdesc'] = '';
-$string['setting:enablecleanlogs'] = 'Inschakelen logopschoning';
-$string['setting:desc:enablecleanlogs'] = 'Schakelt automatisch opschonen van historische logs aan of uit.';
-$string['setting:cleanlogsafter'] = 'Frequentie logopschoning';
-$string['setting:desc:cleanlogsafter'] = 'Configureer de frequentie waarop historische logs worden opgeschoond. Alle logs ouder dan de ingegeven waarde zullen fysiek verwijderd worden.';
-$string['config:cleanlogs:disabled'] = 'Automatisch opschonen van logs is uitgeschakeld in de globale configuratie';
-$string['setting:maxrestoreusers'] = 'Maximum gebruikers';
-$string['setting:desc:maxrestoreusers'] = 'Dit stelt het maximale aantal getoonde gebruikers in voor het aantal te herstellen gebruikers.';
-
+$string['hasloginfo'] = 'Heeft log info?';
+$string['label:users:potential'] = 'Potentiele gebruikers';
+$string['link:reset'] = 'Resetten';
+$string['link:restore'] = 'Gebruikers herstellen';
+$string['msg:no-users-to-restore'] = 'Er zijn geen verwijderde gebruikersaccounts gevonden om te kunnen herstellen.';
+$string['notice:readprogress'] = 'Logstore inlezen is nog niet afgerond, dus gegevens over verwijderde gebruikersaccounts zijn mogelijk nog niet beschikbaar. Huidige voortgang: {$a->percentage}% (van {$a->total} gegevensrijen).';
+$string['page:view:log.php:introduction'] = 'De tabel hieronder toont de statussen van gebruikers die zijn hersteld.';
 $string['page:view:restore.php:introduction'] = 'Dit formulier stelt je in staat gebruikersaccounts te herstellen en de gebruikers
 per email te informeren over het herstel van hun account. Let op, in de onderstaande tabel stellen de gebruikersnaam en e-mailadres de originele
 gegevens voor en zijn teruggehaald uit de event log gegevens.';
-$string['page:view:log.php:introduction'] = 'De tabel hieronder toont de statussen van gebruikers die zijn hersteld.';
-
-$string['config:tool:disabled'] = 'Gebruikersherstel is uitgeschakeld middels globale configuratie';
-
-$string['err:statustable:set_sql'] = 'set_sql() is uitgeschakeld. De tabel definieert zijn eigen queries.';
-$string['label:users:potential'] = 'Potentiele gebruikers';
-$string['restore:username-exists'] = 'Kan gebruikersaccount niet herstellen: er is al een andere actieve gebruiker met gebruikersnaam \'{$a->username}\'';
+$string['pluginname'] = 'Gebruikersherstel';
+$string['privacy:metadata:tool_userrestore:mailedto'] = 'E-mailadres van de herstelde gebruiker';
+$string['privacy:metadata:tool_userrestore:mailsent'] = 'Of een email is verzonden naar de gebruiker';
+$string['privacy:metadata:tool_userrestore:restored'] = 'Of het account werd hersteld';
+$string['privacy:metadata:tool_userrestore:restoredata'] = 'Gegevens tbv account herstel';
+$string['privacy:metadata:tool_userrestore:timecreated'] = 'Tijdstip waarop de gegevens zijn aangemaakt.';
+$string['privacy:metadata:tool_userrestore:userid'] = 'De primaire database sleutel van de Moodle gebruiker voor wie herstel is gedaan.';
+$string['privacy:metadata:tool_userrestore_log'] = 'De userrestore log tabel bevat historische (log)informatie over herstelde accounts';
+$string['privacy:metadata:tool_userrestore_status'] = 'De userrestore status tabel bevat informatie over herstelde accounts';
+$string['privacy:metadata:tool_userrestore_data'] = 'De userrestore data tabel bevat informatie over verwijderde accounts';
+$string['promo'] = 'Gebruikersherstel plugin voor Moodle';
+$string['promodesc'] = 'Deze plugin is ontwikkeld door Sebsoft Managed Hosting &amp; Software Development
+    (<a href=\'https://www.sebsoft.nl/\' target=\'_new\'>https://www.sebsoft.nl</a>).<br /><br />
+    {$a}<br /><br />';
+$string['reset'] = 'Resetten';
+$string['restore:deleted-user-not-found'] = 'Kan gebruikersaccount niet herstellen: verwijderde gebruiker kan niet worden gevonden';
 $string['restore:email-exists'] = 'Kan gebruikersaccount niet herstellen: er is al een andere actieve gebruiker met emailadres \'{$a->email}\'';
+$string['restore:username-exists'] = 'Kan gebruikersaccount niet herstellen: er is al een andere actieve gebruiker met gebruikersnaam \'{$a->username}\'';
 $string['restore:user-mnet-not-local'] = 'Kan gebruikersaccount niet herstellen: mnet host voor de te herstellen gebruiker komt niet overeen met de geconfigureerde lokale mnet host';
 $string['restore:user-restored'] = 'Gebruiker <i>\'{$a->username}\'</i> (\'{$a->email}\') is succesvol hersteld';
-$string['restore:deleted-user-not-found'] = 'Kan gebruikersaccount niet herstellen: verwijderde gebruiker kan niet worden gevonden';
-
-$string['th:userid'] = 'GebruikersID';
-$string['th:name'] = 'Naam';
-$string['th:restored'] = 'Hersteld';
-$string['th:mailsent'] = 'E-mail verzonden';
-$string['th:mailedto'] = 'E-mail veronden naar';
-$string['th:timecreated'] = 'Aangemaakt op';
-$string['th:action'] = 'Actie';
-
-$string['button:backtocourse'] = 'Terug naar cursus';
-$string['button:backtoform'] = 'Terug naar gebruikersherstel formulier';
-
-$string['email:user:restore:subject'] = 'Je account is hersteld';
-$string['email:user:restore:body'] = '<p>Beste {fullname}</p>
-<p>Je gebruikersaccount is hersteld</p>
-<p>Je gebruikersnaam kon mogelijk niet correct hersteld worden.
-Dit is afhankelijk van hoe moodle gebruikeraccount verwijderd en of de event logs al dan niet opgeschooned zijn.
-Vanaf nu is je gebruikersnaam dan ook {username}.</p>
-<p>Wanneer je van mening bent dat dit onbedoeld is, of wanneer je vragen hebt,
-neem dan alsjeblieft contact op met {contact}</p>
-<p>Je zou moeten kunnen inloggen met je originele wachtwoord.<br/>
-Als dit niet het geval is, gebruik dan het emailadres waar deze email naartoe is verzonden om een wachtwoord reset aan te vragen.<br/>
-Log alsjeblieft in op de site om alle informatie weer aan te vullen door onderstaande link te volgen:<br/>
-{loginlink}</p>
-<p>Met vriendelijke groet,<br/>{signature}</p>';
-$string['table:logs'] = 'Logs';
+$string['restoresettings'] = 'Instellingen voor gebruikersherstel';
+$string['restoresettingsdesc'] = '';
+$string['result:config:reset'] = 'Gebruikersherstel configuratie is gereset.';
+$string['result:data:reset'] = 'Gebruikersherstel data is gereset.';
+$string['setting:desc:cleanlogsafter'] = 'Configureer de frequentie waarop historische logs worden opgeschoond. Alle logs ouder dan de ingegeven waarde zullen fysiek verwijderd worden.';
+$string['setting:desc:enablecleanlogs'] = 'Schakelt automatisch opschonen van historische logs aan of uit.';
+$string['setting:desc:maxrestoreusers'] = 'Dit stelt het maximale aantal getoonde gebruikers in voor het aantal te herstellen gebruikers.';
+$string['setting:desc:undeletetrackedonly'] = 'Dit geeft aan of we alleen gebruikersaccounts met bekende gegevens herstellen of alle mogelijke gebruikersaccounts. Bekende gegevens houdt in dat er gegevens beschikbaar zijn uit ofwel de logstore ofwel vanuit gebeurtenissen (events)';
+$string['setting:cleanlogsafter'] = 'Frequentie logopschoning';
+$string['setting:enablecleanlogs'] = 'Inschakelen logopschoning';
+$string['setting:maxrestoreusers'] = 'Maximum gebruikers';
+$string['setting:undeletetrackedonly'] = 'Herstel alleen gebruikersaccount met beschikbare/opgeslagen gegevens';
 $string['table:log:all'] = 'Historie herstellog';
 $string['table:log:latest'] = 'Laatste herstellogs';
+$string['table:logs'] = 'Logs';
+$string['task:fillrestoredata'] = 'Informatie tbv verwijderde gebruikers vullen.';
 $string['task:logclean'] = 'Opschonen logs voor gebruikersherstel';
-$string['task:filldeletedcache'] = 'Informatie tbv verwijderde gebruikers vullen in cache.';
-$string['msg:no-users-to-restore'] = 'Er zijn geen verwijderde gebruikersaccounts gevonden om te kunnen herstellen.';
-
-$string['privacy:metadata:tool_userrestore:userid'] = 'De primaire database sleutel van de Moodle gebruiker voor wie herstel is gedaan.';
-$string['privacy:metadata:tool_userrestore:restored'] = 'Of het account werd hersteld';
-$string['privacy:metadata:tool_userrestore:mailsent'] = 'Of een email is verzonden naar de gebruiker';
-$string['privacy:metadata:tool_userrestore:mailedto'] = 'E-mailadres van de herstelde gebruiker';
-$string['privacy:metadata:tool_userrestore:timecreated'] = 'Tijdstip waarop de gegevens zijn aangemaakt.';
-
-$string['cache:fill'] = 'Cache volledig opnieuw vullen';
-$string['cache:fill:smart'] = 'Missende informatie aan cache toevoegen';
-$string['cache:fillneeded'] = 'De cache die nodig is om gebruikersgegevens voor verwijderde gebruikers te traceren is niet gevuld.<br/>
-Deze cache is nodig om het tonen van het herstelformulier voor gebruikersaccounts en gaat timeouts zo veel mogelijk tegen.<br/>
-Wees er a.u.b van bewust dat het vullen van de cache, afhankelijk van de grootte van je installatie een <i>langdurig proces</i> kan zijn.<br/>
-Voor grote installaties kan dit hele proces met gemak minuten of nog langer in beslag nemen.<br/><br/>
-Wanneer de cache eenmaal volledig gevuld is, zou het herstelformulier binnen enkele seconden geladen moeten zijn.<br/><br/>
-Je kunt ervoor kiezen om de cache aan te vullen of volledig opnieuw te vullen.<br/>
-Het verschil is dat aanvullen de cache <i>niet</i> van tevoren leegt, terwijl een volledig opnieuw vullen dat wel doet.
-';
-$string['cache:purge'] = 'Cache legen';
-$string['cache:iscomplete'] = 'Cache heeft alle benodigde informatie';
-$string['setting:enableuserdeletedobserver'] = 'Inhaken op gebeurtenis "gebruiker verwijderd"?';
-$string['setting:desc:enableuserdeletedobserver'] = 'Indien ingeschakeld zal dit een directe vulling van de cache bewerkstelligen wanneer een gebruiker wordt verijwderd
-als onderdeel van het verwijderproces.<br/>
-Dit heeft de potewntie om zeer lange verwerkingstijden of zelfs scipt timeouts met zich mee te brengen wanneer gebruikers in bluk worden verwijderd door beheerders.<br/>
-Als je deze instelling aan hebt staan en je vaker gebruikers in bulk verwijderd, is het misschien tijd om deze functionaliteit uit te zetten.
-';
-$string['cache:missing:numusers'] = 'Cache tbv informatie van verwijderde gebruikersaccounts mist {$a} gegevensrijen/gebruikers.';
-$string['cache:fill:smart:limited'] = 'Missend informatie aan cache toevoegen (max. 10 gegevensrijen)';
+$string['th:action'] = 'Actie';
+$string['th:mailedto'] = 'E-mail veronden naar';
+$string['th:mailsent'] = 'E-mail verzonden';
+$string['th:name'] = 'Naam';
+$string['th:restored'] = 'Hersteld';
+$string['th:timecreated'] = 'Aangemaakt op';
+$string['th:userid'] = 'GebruikersID';
+$string['timedeleted'] = 'Verwijderd op';
+$string['userrestore:administration'] = 'Gebruikersherstel administratie';
+$string['userrestore:reset'] = 'Deze pagina staat je toe de configuratie en gegevens van de plugin te resetten.<br/>';
+$string['userrestore:reset:config'] = 'Configuratie resetten';
+$string['userrestore:reset:config_help'] = 'Deze optie reset de status van ingelezen informatie uit de logstore. Effectief worden hiermee de gegevens opnieuw ingelezen';
+$string['userrestore:reset:data'] = 'Accountgegevens resetten';
+$string['userrestore:reset:data_help'] = 'Deze optie verwijdert alle bekende accountdata uit de plugin.';
+$string['userrestore:reset:warn'] = 'Wees er aub van bewust dat wanneer de Moodle logs periodiek worden opgeschoond, de kans bestaat dat dit ook herstelbare gebruikersaccountgegevens wist.';
+$string['userrestore:viewstatus'] = 'Gebruikersherstel status';

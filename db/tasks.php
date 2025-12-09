@@ -23,29 +23,29 @@
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * */
 defined('MOODLE_INTERNAL') || die;
 
-$tasks = array(
-    array(
+$tasks = [
+    [
         'classname' => 'tool_userrestore\task\logclean',
         'blocking'  => 0,
         'minute'    => '0',
         'hour'      => '*/6',
         'day'       => '*',
         'dayofweek' => '*',
-        'month'     => '*'
-    ),
-    array(
-        'classname' => 'tool_userrestore\task\filldeletedcache',
+        'month'     => '*',
+    ],
+    [
+        'classname' => 'tool_userrestore\task\fillrestoredata',
         'blocking'  => 0,
         'minute'    => '*/10',
         'hour'      => '*',
         'day'       => '*',
         'dayofweek' => '*',
-        'month'     => '*'
-    ),
-);
+        'month'     => '*',
+    ],
+];

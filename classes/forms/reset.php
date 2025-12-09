@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * this file contains the tool specific exception.
+ * this file contains the user selection form to exclude users
  *
- * File         exception.php
+ * File         user.php
  * Encoding     UTF-8
  *
  * @package     tool_userrestore
@@ -26,10 +26,15 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_userrestore;
+namespace tool_userrestore\forms;
+
+defined('MOODLE_INTERNAL') || die;
+use tool_userrestore\util;
+
+require_once($CFG->libdir . '/formslib.php');
 
 /**
- * tool_userrestore\exception
+ * tool_userrestore\forms\reset
  *
  * @package     tool_userrestore
  *
@@ -37,16 +42,21 @@ namespace tool_userrestore;
  * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class exception extends \moodle_exception {
+class reset extends \moodleform {
     /**
-     * Create a new instance of the exception
-     *
-     * @param string $errorcode
-     * @param string $link
-     * @param \stdClass|null $a
-     * @param string $debuginfo
+     * form definition
      */
-    public function __construct($errorcode, $link = '', $a = null, $debuginfo = null) {
-        parent::__construct($errorcode, 'tool_userrestore', $link, $a, $debuginfo);
+    public function definition() {
+        $mform = $this->_form;
+
+        $mform->addElement('advcheckbox', 'resetconfig', get_string('userrestore:reset:config', 'tool_userrestore'));
+        $mform->setDefault('resetconfig', 1);
+        $mform->addHelpButton('resetconfig', 'userrestore:reset:config', 'tool_userrestore');
+
+        $mform->addElement('advcheckbox', 'resetdata', get_string('userrestore:reset:data', 'tool_userrestore'));
+        $mform->setDefault('resetdata', 1);
+        $mform->addHelpButton('resetdata', 'userrestore:reset:data', 'tool_userrestore');
+
+        $this->add_action_buttons(true, get_string('reset', 'tool_userrestore'));
     }
 }

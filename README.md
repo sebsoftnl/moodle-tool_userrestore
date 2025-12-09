@@ -17,10 +17,10 @@ This plugin takes the following into account:
 
 Important note:
 Moodle removes ALL relevant data upon deleting a user account, and only the record in the
-user table itself remains. This utility can't do anything about this and is only capable of restoring the
-record from the user table.
+user table itself remains (or so it should be).
+This utility can't do anything about this and is only capable of restoring the record from the user table.
 
-Important note for moodle 2.7 and up:
+Important note for Moodle 2.7 and up:
 Before Moodle 2.7 there is NO way we can retrieve all information. However, with Moodle 2.7 and the new
 event logging tables, the original user information is stored in the event data. Therefore, from Moodle 2.7
 onwards, this plugin will try and restore the original user information from there.

@@ -21,14 +21,14 @@
  * Encoding     UTF-8
  *
  * @package     tool_userrestore
- * @copyright   2019 R.J. van Dongen <rogier@sebsoft.nl>
+ * @copyright   2019 RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
-$observers = array(
-    array(
+$observers = [
+    [
         'eventname'   => '\core\event\user_deleted',
         'callback'    => '\tool_userrestore\observer::user_deleted',
-    ),
-);
+    ],
+];

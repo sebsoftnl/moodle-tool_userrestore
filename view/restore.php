@@ -23,12 +23,12 @@
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
+require_once($CFG->libdir . '/adminlib.php');
 
 use tool_userrestore\util;
 
@@ -39,7 +39,7 @@ set_time_limit(0);
 
 $history = optional_param('history', 0, PARAM_INT);
 $page = optional_param('page', 0, PARAM_INT);
-$context       = \context_system::instance();
+$context = \context_system::instance();
 
 $pageurl = new moodle_url('/' . $CFG->admin . '/tool/userrestore/view/restore.php');
 
@@ -50,37 +50,19 @@ $undeletecounter = \tool_userrestore\util::count_users_to_undelete();
 $perpage = (int) tool_userrestore\config::get('maxrestoreusers');
 $needspaging = ($undeletecounter > $perpage);
 if ($undeletecounter === 0) {
-        echo $OUTPUT->header();
-        echo '<div id="tool-userrestore-container">';
-        echo '<div>';
-        \tool_userrestore\util::print_view_tabs(array(), 'restore');
-        echo '</div>';
-        \tool_userrestore\util::print_notification(get_string('msg:no-users-to-restore', 'tool_userrestore'), 'warn');
-        echo '</div>';
-        echo $OUTPUT->footer();
+    echo $OUTPUT->header();
+    echo '<div id="tool-userrestore-container">';
+    echo '<div>';
+    \tool_userrestore\util::print_view_tabs([], 'restore');
+    echo '</div>';
+    \tool_userrestore\util::print_notification(get_string('msg:no-users-to-restore', 'tool_userrestore'), 'warn');
+    echo '<div>';
+    $progress = util::get_read_progress();
+    echo $OUTPUT->notification(get_string('notice:readprogress', 'tool_userrestore', (object)$progress), 'info', false);
+    echo '</div>';
+    echo '</div>';
+    echo $OUTPUT->footer();
 } else {
-    // Validate if cache is full or not.
-    if (!tool_userrestore\deletedusercache::has_all_entries()) {
-        echo $OUTPUT->header();
-        echo '<div id="tool-userrestore-container">';
-        echo '<div>';
-        \tool_userrestore\util::print_view_tabs(array(), 'restore');
-        \tool_userrestore\util::print_notification(get_string('cache:fillneeded', 'tool_userrestore'), 'warn');
-        $missing = \tool_userrestore\deletedusercache::count_missing_entries();
-        \tool_userrestore\util::print_notification(get_string('cache:missing:numusers', 'tool_userrestore', $missing), 'warn');
-        $fillurl = new moodle_url('/' . $CFG->admin . '/tool/userrestore/view/cachefill.php',
-                ['confirm' => 1, 'redirect' => $pageurl->out(true)]);
-        echo $OUTPUT->single_button($fillurl, get_string('cache:fill', 'tool_userrestore'), 'get');
-        $confirmfillsmart = new moodle_url('/' . $CFG->admin . '/tool/userrestore/view/cachefill.php',
-                ['confirm' => 1, 'smart' => 1, 'redirect' => $pageurl->out(true)]);
-        echo $OUTPUT->single_button($confirmfillsmart, get_string('cache:fill:smart', 'tool_userrestore'), 'get');
-        $limit = 10;
-        $confirmfillsmartx = new moodle_url($pageurl,
-                ['confirm' => 1, 'smart' => 1, 'max' => $limit, 'redirect' => $pageurl->out(true)]);
-        echo $OUTPUT->single_button($confirmfillsmartx, get_string('cache:fill:smart:limited', 'tool_userrestore', $limit), 'get');
-        echo $OUTPUT->footer();
-        exit;
-    }
     // Force page into range.
     $maxpage = ceil($undeletecounter / $perpage) - 1;
     $page = max(0, min($page, $maxpage));
@@ -100,7 +82,7 @@ if ($undeletecounter === 0) {
         echo $OUTPUT->header();
         echo '<div id="tool-userrestore-container">';
         echo '<div>';
-        \tool_userrestore\util::print_view_tabs(array(), 'restore');
+        \tool_userrestore\util::print_view_tabs([], 'restore');
         echo '</div>';
         $mform->process();
         echo '<br/>';
@@ -111,8 +93,14 @@ if ($undeletecounter === 0) {
         echo $OUTPUT->header();
         echo '<div id="tool-userrestore-form-container">';
         echo '<div>';
-        \tool_userrestore\util::print_view_tabs(array(), 'restore');
+        \tool_userrestore\util::print_view_tabs([], 'restore');
         echo '</div>';
+        if (!\tool_userrestore\config::get('logstoreread')) {
+            echo '<div>';
+            $progress = util::get_read_progress();
+            echo $OUTPUT->notification(get_string('notice:readprogress', 'tool_userrestore', (object)$progress), 'info', false);
+            echo '</div>';
+        }
         echo '<div>' . get_string('page:view:restore.php:introduction', 'tool_userrestore') . '</div>';
         echo $strpaging;
         echo $mform->display();

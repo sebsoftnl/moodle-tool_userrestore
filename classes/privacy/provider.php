@@ -23,9 +23,10 @@
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+// @codingStandardsIgnoreFile Due to Moodle failing the "class implements" alphabetically itself.
 
 namespace tool_userrestore\privacy;
 
@@ -43,14 +44,14 @@ use core_privacy\local\request\approved_userlist;
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements
-        \core_privacy\local\metadata\provider,
-        \core_privacy\local\request\plugin\provider,
-        \core_privacy\local\request\core_userlist_provider {
-
+    \core_privacy\local\metadata\provider,
+    \core_privacy\local\request\plugin\provider,
+    \core_privacy\local\request\core_userlist_provider
+{
     /**
      * Provides meta data that is stored about a user with tool_userrestore
      *
@@ -79,6 +80,15 @@ class provider implements
                 'timecreated' => 'privacy:metadata:tool_userrestore:timecreated',
             ],
             'privacy:metadata:tool_userrestore_log'
+        );
+        $collection->add_database_table(
+            'tool_userrestore_data',
+            [
+                'userid' => 'privacy:metadata:tool_userrestore:userid',
+                'restoredata' => 'privacy:metadata:tool_userrestore:restoredata',
+                'timecreated' => 'privacy:metadata:tool_userrestore:timecreated',
+            ],
+            'privacy:metadata:tool_userrestore_data'
         );
         return $collection;
     }
@@ -120,12 +130,12 @@ class provider implements
             $statuses = $DB->get_recordset_sql($sql, $params);
             foreach ($statuses as $status) {
                 $alldata[$contextid][] = (object)[
-                        'userid' => $status->userid,
-                        'restored' => transform::yesno($status->restored),
-                        'mailsent' => transform::yesno($status->mailsent),
-                        'mailedto' => $status->mailedto,
-                        'timecreated' => transform::datetime($status->timecreated),
-                    ];
+                    'userid' => $status->userid,
+                    'restored' => transform::yesno($status->restored),
+                    'mailsent' => transform::yesno($status->mailsent),
+                    'mailedto' => $status->mailedto,
+                    'timecreated' => transform::datetime($status->timecreated),
+                ];
             }
             $statuses->close();
 
@@ -146,12 +156,12 @@ class provider implements
             $statuslogs = $DB->get_recordset_sql($sql, $params);
             foreach ($statuslogs as $statuslog) {
                 $alldata[$contextid][] = (object)[
-                        'userid' => $statuslog->userid,
-                        'restored' => transform::yesno($status->restored),
-                        'mailsent' => transform::yesno($status->mailsent),
-                        'mailedto' => $statuslog->mailedto,
-                        'timecreated' => transform::datetime($statuslog->timecreated),
-                    ];
+                    'userid' => $statuslog->userid,
+                    'restored' => transform::yesno($status->restored),
+                    'mailsent' => transform::yesno($status->mailsent),
+                    'mailedto' => $statuslog->mailedto,
+                    'timecreated' => transform::datetime($statuslog->timecreated),
+                ];
             }
             $statuslogs->close();
 
@@ -163,6 +173,31 @@ class provider implements
                     ['tool_userrestore'],
                     'statuslogs',
                     (object)['statuslog' => $statuslog]
+                );
+            });
+
+            // Add suspension data records.
+            $sql = "SELECT ul.* FROM {tool_userrestore_data} ul WHERE ul.userid = :userid";
+            $params = ['userid' => $user->id];
+            $alldata = [];
+            $datalogs = $DB->get_recordset_sql($sql, $params);
+            foreach ($statuslogs as $statuslog) {
+                $alldata[$contextid][] = (object)[
+                    'userid' => $statuslog->userid,
+                    'restoredata' => $status->restoredata,
+                    'timecreated' => transform::datetime($statuslog->timecreated),
+                ];
+            }
+            $datalogs->close();
+
+            // The data is organised in: {?}/statuslogs.json.
+            // where X is the attempt number.
+            array_walk($alldata, function($statuslog, $contextid) {
+                $context = \context::instance_by_id($contextid);
+                writer::with_context($context)->export_related_data(
+                    ['tool_userrestore'],
+                    'restoredatas',
+                    (object)['restoredata' => $statuslog]
                 );
             });
         }
@@ -179,10 +214,12 @@ class provider implements
             return;
         }
 
-        // Delete hammering records.
+        // Delete status records.
         $DB->delete_records('tool_userrestore_status');
         // Delete log records.
         $DB->delete_records('tool_userrestore_log');
+        // Delete data records.
+        $DB->delete_records('tool_userrestore_data');
     }
 
     /**
@@ -203,10 +240,12 @@ class provider implements
             }
 
             $user = $contextlist->get_user();
-            // Delete hammering records.
+            // Delete status records.
             $DB->delete_records('tool_userrestore_status', ['userid' => $user->id]);
             // Delete log records.
             $DB->delete_records('tool_userrestore_log', ['userid' => $user->id]);
+            // Delete data records.
+            $DB->delete_records('tool_userrestore_data', ['userid' => $user->id]);
         }
     }
 
@@ -224,7 +263,8 @@ class provider implements
         // Since we work on a global level, this means "all context".
         $userids1 = $DB->get_fieldset_sql('SELECT DISTINCT userid FROM {tool_userrestore_status}');
         $userids2 = $DB->get_fieldset_sql('SELECT DISTINCT userid FROM {tool_userrestore_log}');
-        $userids = array_unique(array_merge($userids1, $userids2));
+        $userids3 = $DB->get_fieldset_sql('SELECT DISTINCT userid FROM {tool_userrestore_data}');
+        $userids = array_unique(array_merge($userids1, $userids2, $userids3));
         $userlist->add_users($userids);
     }
 
@@ -243,7 +283,7 @@ class provider implements
         foreach ($userlist->get_userids() as $userid) {
             $DB->delete_records('tool_userrestore_status', ['userid' => $userid]);
             $DB->delete_records('tool_userrestore_log', ['userid' => $userid]);
+            $DB->delete_records('tool_userrestore_data', ['userid' => $userid]);
         }
     }
-
 }

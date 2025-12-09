@@ -23,7 +23,7 @@
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * */
@@ -37,36 +37,59 @@ if ($hassiteconfig) {
     $donate = '<a href="https://customerpanel.sebsoft.nl/sebsoft/donate/intro.php" target="_new"><img src="' .
             $OUTPUT->image_url('donate', 'tool_userrestore') . '" /></a>';
     $header = '<div class="tool-userrestore-logopromo">' . $image . $donate . '</div>';
-    $temp->add(new admin_setting_heading('tool_userrestore_logopromo',
-            get_string('promo', 'tool_userrestore'),
-            get_string('promodesc', 'tool_userrestore', $header)));
+    $temp->add(new admin_setting_heading(
+        'tool_userrestore_logopromo',
+        get_string('promo', 'tool_userrestore'),
+        get_string('promodesc', 'tool_userrestore', $header)
+    ));
 
     // Default settings.
-    $temp->add(new admin_setting_heading('tool_userrestore_restoresettings',
-            get_string('restoresettings', 'tool_userrestore'),
-            get_string('restoresettingsdesc', 'tool_userrestore')));
+    $temp->add(new admin_setting_heading(
+        'tool_userrestore_restoresettings',
+        get_string('restoresettings', 'tool_userrestore'),
+        get_string('restoresettingsdesc', 'tool_userrestore')
+    ));
 
-    $temp->add(new admin_setting_configcheckbox('tool_userrestore/enablecleanlogs',
-            get_string('setting:enablecleanlogs', 'tool_userrestore'),
-            get_string('setting:desc:enablecleanlogs', 'tool_userrestore'),
-            '1', '1', '0'));
-    $temp->add(new admin_setting_configduration('tool_userrestore/cleanlogsafter',
-            get_string('setting:cleanlogsafter', 'tool_userrestore'),
-            get_string('setting:desc:cleanlogsafter', 'tool_userrestore'),
-            70 * 86400, 86400));
-    $temp->add(new admin_setting_configtext('tool_userrestore/maxrestoreusers',
-            get_string('setting:maxrestoreusers', 'tool_userrestore'),
-            get_string('setting:desc:maxrestoreusers', 'tool_userrestore'),
-            100, PARAM_INT));
+    $temp->add(new admin_setting_configcheckbox(
+        'tool_userrestore/enablecleanlogs',
+        get_string('setting:enablecleanlogs', 'tool_userrestore'),
+        get_string('setting:desc:enablecleanlogs', 'tool_userrestore'),
+        '1',
+        '1',
+        '0'
+    ));
+    $temp->add(new admin_setting_configduration(
+        'tool_userrestore/cleanlogsafter',
+        get_string('setting:cleanlogsafter', 'tool_userrestore'),
+        get_string('setting:desc:cleanlogsafter', 'tool_userrestore'),
+        70 * 86400,
+        86400
+    ));
 
-    $temp->add(new admin_setting_configcheckbox('tool_userrestore/enableuserdeletedobserver',
-            get_string('setting:enableuserdeletedobserver', 'tool_userrestore'),
-            get_string('setting:desc:enableuserdeletedobserver', 'tool_userrestore'),
-            0));
+    $temp->add(new admin_setting_configtext(
+        'tool_userrestore/maxrestoreusers',
+        get_string('setting:maxrestoreusers', 'tool_userrestore'),
+        get_string('setting:desc:maxrestoreusers', 'tool_userrestore'),
+        100,
+        PARAM_INT
+    ));
+
+    $temp->add(new admin_setting_configcheckbox(
+        'tool_userrestore/undeletetrackedonly',
+        get_string('setting:undeletetrackedonly', 'tool_userrestore'),
+        get_string('setting:desc:undeletetrackedonly', 'tool_userrestore'),
+        1
+    ));
 
     $ADMIN->add('tools', $temp);
 }
 
-$ADMIN->add('accounts', new admin_externalpage('tooluserrestore', get_string('pluginname', 'tool_userrestore'),
-    "{$CFG->wwwroot}/{$CFG->admin}/tool/userrestore/view/restore.php", 'moodle/user:update'
-));
+$ADMIN->add(
+    'accounts',
+    new admin_externalpage(
+        'tooluserrestore',
+        get_string('pluginname', 'tool_userrestore'),
+        "{$CFG->wwwroot}/{$CFG->admin}/tool/userrestore/view/restore.php",
+        'moodle/user:update'
+    )
+);

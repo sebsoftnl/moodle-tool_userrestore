@@ -19,6 +19,9 @@
  *
  * File         config.php
  * Encoding     UTF-8
+ *
+ * @package     tool_userrestore
+ *
  * @copyright   Sebsoft.nl
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,11 +34,10 @@ namespace tool_userrestore;
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class config {
-
     /**
      *
      * @var whether or not config has been loaded yet
@@ -96,5 +98,4 @@ class config {
         self::$config = null;
         self::init();
     }
-
 }

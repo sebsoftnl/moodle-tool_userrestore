@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="admin/tool/userrestore/db" VERSION="20140204" COMMENT="XMLDB file for Moodle admin/tool/userrestore"
+<XMLDB PATH="admin/tool/userrestore/db" VERSION="2025120100" COMMENT="XMLDB file for Moodle admin/tool/userrestore"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -34,6 +34,24 @@
             </KEYS>
             <INDEXES>
                 <INDEX NAME="idx_userid" UNIQUE="false" FIELDS="userid"/>
+            </INDEXES>
+        </TABLE>
+        <TABLE NAME="tool_userrestore_data" COMMENT="tool_userrestore_data table retrofitted from MySQL">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="refid" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="userid" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="restoredata" TYPE="text" LENGTH="medium" NOTNULL="true" UNSIGNED="false" SEQUENCE="false"/>
+                <FIELD NAME="usercreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="idx_refid" UNIQUE="false" FIELDS="refid"/>
+                <INDEX NAME="idx_userid" UNIQUE="false" FIELDS="userid"/>
+                <INDEX NAME="idx_usercreated" UNIQUE="false" FIELDS="usercreated"/>
             </INDEXES>
         </TABLE>
     </TABLES>

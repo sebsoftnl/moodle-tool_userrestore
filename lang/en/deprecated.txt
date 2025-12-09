@@ -1,0 +1,17 @@
+link:log,tool_userrestore
+link:viewstatus,tool_userrestore
+link:log:overview,tool_userrestore
+link:currentstatus:overview,tool_userrestore
+link:cache,tool_userrestore
+config:tool:disabled,tool_userrestore
+err:statustable:set_sql,tool_userrestore
+button:backtocourse,tool_userrestore
+cache:fill,tool_userrestore
+cache:fill:smart,tool_userrestore
+cache:fillneeded,tool_userrestore
+cache:purge,tool_userrestore
+cache:iscomplete,tool_userrestore
+setting:enableuserdeletedobserver,tool_userrestore
+setting:desc:enableuserdeletedobserver,tool_userrestore
+cache:missing:numusers,tool_userrestore
+cache:fill:smart:limited,tool_userrestore

@@ -1,3 +1,9 @@
+Version 4.0.0 (build 2025120100)
+* Merged/implemented PR#2 (thans cgrauer https://github.com/cgrauer)
+* Complete overhaul of code, logic and interface (no longer using a cache, but stored data)
+
+----------
+
 Version 3.6.3 (build 2019060103)
 * Removed "LIMIT 1" and replaced with IGNORE_MISSING in util.php (DB engine compatibility).
 

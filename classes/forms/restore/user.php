@@ -19,6 +19,9 @@
  *
  * File         user.php
  * Encoding     UTF-8
+ *
+ * @package     tool_userrestore
+ *
  * @copyright   Sebsoft.nl
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -36,13 +39,11 @@ require_once($CFG->libdir . '/formslib.php');
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class user extends \moodleform {
-
     /**
-     *
      * @var array
      */
     protected $potentialusers;
@@ -59,11 +60,11 @@ class user extends \moodleform {
         $mform->setType('processor', PARAM_INT);
 
         // Load users.
-        $this->potentialusers = \tool_userrestore\util::load_users_to_undelete(true, true, $limitfrom, $limitnum);
+        $this->potentialusers = \tool_userrestore\util::load_users_to_undelete(true, $limitfrom, $limitnum);
         foreach ($this->potentialusers as $user) {
             // Register hidden element so user ids are tracked.
-            $mform->addElement('hidden', 'user_'.$user->id, 0);
-            $mform->setType('user_'.$user->id, PARAM_INT);
+            $mform->addElement('hidden', 'user_' . $user->id, 0);
+            $mform->setType('user_' . $user->id, PARAM_INT);
         }
         // Add fake elements for all deleted users.
         $mform->addElement('html', $this->create_fake_user_elements($this->potentialusers));
@@ -75,7 +76,7 @@ class user extends \moodleform {
         $mform->setDefault('sendmail', 1);
 
         // Register HTML input.
-        $mform->addElement('text', 'mailsubject', get_string('form:label:subject', 'tool_userrestore'), array('size' => 40));
+        $mform->addElement('text', 'mailsubject', get_string('form:label:subject', 'tool_userrestore'), ['size' => 40]);
         $mform->setType('mailsubject', PARAM_RAW);
         $mform->setDefault('mailsubject', get_string('email:user:restore:subject', 'tool_userrestore'));
 
@@ -83,7 +84,7 @@ class user extends \moodleform {
 
         $mform->addElement('editor', 'mailbody', get_string('form:label:email', 'tool_userrestore'));
         $mform->setType('mailbody', PARAM_RAW);
-        $mform->setDefault('mailbody', array('text' => get_string('email:user:restore:body', 'tool_userrestore')));
+        $mform->setDefault('mailbody', ['text' => get_string('email:user:restore:body', 'tool_userrestore')]);
 
         $this->add_action_buttons(false, get_string('button:userrestore:continue', 'tool_userrestore'));
     }
@@ -100,7 +101,7 @@ class user extends \moodleform {
         }
 
         // Gather users.
-        $data->restoreids = array();
+        $data->restoreids = [];
         foreach ($data as $key => $value) {
             if (stristr($key, 'user_') !== false) {
                 if ((bool)$value) {
@@ -135,23 +136,29 @@ class user extends \moodleform {
         $html .= '<label>' . get_string('label:users:potential', 'tool_userrestore') . '</label></div><div class="felement">';
         // Generate table.
         $table = new \html_table();
-        $table->head = array('&nbsp', get_string('username'), get_string('email'),
+        $table->head = [
+            '&nbsp',
+            get_string('username'),
+            get_string('email'),
             get_string('timedeleted', 'tool_userrestore'),
-            get_string('deletedby', 'tool_userrestore'), get_string('hasloginfo', 'tool_userrestore'));
-        $table->data = array();
+            get_string('deletedby', 'tool_userrestore'),
+            get_string('hasloginfo', 'tool_userrestore'),
+        ];
+        $table->data = [];
         foreach ($users as $user) {
-            $table->data[] = array(
-                '<input type="checkbox" name="user_' . $user->id . '" id="id_user_' . $user->id .
-                    '" value="1" class="checkboxgroup1" />',
+            $cb = '<input type="checkbox" name="user_' . $user->id . '" id="id_user_' . $user->id .
+                    '" value="1" class="checkboxgroup1" />';
+            $table->data[] = [
+                empty($user->email) ? '' : $cb,
                 $user->username,
                 $user->email,
                 date('Y-m-d', $user->timedeleted),
                 $user->deletedby,
-                $user->fromlogstore ? $strloginfoyes : $strloginfono);
+                $user->hasrestoredata ? $strloginfoyes : $strloginfono,
+            ];
         }
         $html .= \html_writer::table($table);
         $html .= '</div></div>';
         return $html;
     }
-
 }

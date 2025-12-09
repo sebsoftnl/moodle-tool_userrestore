@@ -23,7 +23,7 @@
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,34 +35,37 @@ namespace tool_userrestore;
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
+ * @author      RvD <helpdesk@sebsoft.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class observer {
-
     /**
-     * User deleted handler storing the info in cache
+     * User deleted handler storing the info
      *
      * @param \core\event\user_deleted $event
      */
     public static function user_deleted(\core\event\user_deleted $event) {
-        global $CFG;
-        $enableobserver = (bool) config::get('enableuserdeletedobserver');
-        if (!$enableobserver) {
-            return;
-        }
+        global $CFG, $DB;
         if ($event->other['mnethostid'] != $CFG->mnet_localhost_id) {
             // Remote user: do not store.
             return;
         }
+
         $noids = array_keys(get_admins());
         $noids[] = $CFG->siteguest;
         if (in_array($event->relateduserid, $noids)) {
             // Guest or admin user: do not store.
             return;
         }
-        // Store info in cache.
-        deletedusercache::replace_info($event->relateduserid);
-    }
 
+        // Insert record.
+        $r = (object)[
+            'userid' => $event->relateduserid,
+            'refid' => 0, // Meaning it did NOT come from the logstore itself.
+            'restoredata' => $event->other,
+            'usercreated' => $event->userid,
+            'timecreated' => $event->timecreated,
+        ];
+        $DB->insert_record('tool_userrestore_data', $r);
+    }
 }

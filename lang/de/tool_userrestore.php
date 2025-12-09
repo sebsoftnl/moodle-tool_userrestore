@@ -23,8 +23,8 @@
  * @package     tool_userrestore
  *
  * @copyright   Sebsoft.nl
- * @author      R.J. van Dongen <rogier@sebsoft.nl>
- * @translator  GERMAN translation: Guido Hornig hornig@lernlink.de
+ * @author      RvD <helpdesk@sebsoft.nl>
+ * @author      GERMAN translation: Guido Hornig hornig@lernlink.de
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 $string['pluginname'] = 'User Restore';
